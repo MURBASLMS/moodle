@@ -124,6 +124,12 @@ if (!empty($outcome_rec->id)) {
     $outcome_rec = file_prepare_standard_editor($outcome_rec, 'description', $editoroptions, $systemcontext, 'grade', 'outcome', null);
 }
 
+if (isset($context)) {
+    $PAGE->set_context($context);
+} else {
+    $PAGE->set_context($systemcontext);
+}
+
 $mform = new edit_outcome_form(null, compact('gpr', 'editoroptions'));
 
 $mform->set_data($outcome_rec);

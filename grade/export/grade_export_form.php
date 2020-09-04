@@ -203,6 +203,11 @@ class grade_export_form extends moodleform {
 
         $this->add_action_buttons(false, $submitstring);
     }
+    
+    public function export_values() {
+        $mform =& $this->_form;
+        return $mform->exportValues();
+    }
 
     /**
      * Overrides the mform get_data method.

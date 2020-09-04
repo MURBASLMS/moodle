@@ -630,6 +630,8 @@ class grade_report_grader extends grade_report {
         $rows = array();
 
         $showuserimage = $this->get_pref('showuserimage');
+        $showuserrole = $this->get_pref('showuserrole');
+        $fixedstudents = $this->is_fixed_students();
         // FIXME: MDL-52678 This get_capability_info is hacky and we should have an API for inserting grade row links instead.
         $canseeuserreport = false;
         $canseesingleview = false;
@@ -715,6 +717,7 @@ class grade_report_grader extends grade_report {
 
             $usercell->header = true;
             $usercell->scope = 'row';
+            $usercell->text = '';
 
             if ($showuserimage) {
                 $usercell->text = $OUTPUT->user_picture($user, ['link' => false, 'visibletoscreenreaders' => false]);
@@ -734,8 +737,8 @@ class grade_report_grader extends grade_report {
                 if (empty($suspendedstring)) {
                     $suspendedstring = get_string('userenrolmentsuspended', 'grades');
                 }
-                $icon = $OUTPUT->pix_icon('i/enrolmentsuspended', $suspendedstring);
-                $usercell->text .= html_writer::tag('span', $icon, array('class'=>'usersuspendedicon'));
+                $usercell->text .= html_writer::empty_tag('img', array('src'=>$OUTPUT->pix_url('i/enrolmentsuspended'), 'title'=>$suspendedstring,
+                        'alt'=>$suspendedstring, 'class'=>'usersuspendedicon'));
             }
             // The browser's scrollbar may partly cover (in certain operative systems) the content in the user cells
             // when horizontally scrolling through the table contents (most noticeable when in RTL mode).
@@ -1944,8 +1947,20 @@ class grade_report_grader extends grade_report {
 
         return true;
     }
-
-    /**
+    
+     /**
+      * Returns whether or not to display fixed students column.
+      * Includes a browser check, because IE6 doesn't support the scrollbar.
+      *
+      * @return bool
+      */
+     public function is_fixed_students() {
+         global $CFG;
+ 
+         return $CFG->grade_report_fixedstudents;
+     }
+     
+     /**
      * Refactored function for generating HTML of sorting links with matching arrows.
      * Returns an array with 'studentname' and 'idnumber' as keys, with HTML ready
      * to inject into a table header cell.

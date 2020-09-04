@@ -314,7 +314,7 @@ abstract class grade_export {
      * @deprecated since 2.8 MDL-46548. Previews are not useful on export.
      */
     public function display_preview($require_user_idnumber=false) {
-        global $OUTPUT;
+        global $CFG, $OUTPUT;
 
         debugging('function grade_export::display_preview is deprecated.', DEBUG_DEVELOPER);
 

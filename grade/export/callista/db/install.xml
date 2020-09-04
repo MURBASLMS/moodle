@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- copyright 2012 onwards University of New England -->
+<XMLDB PATH="grade/export/callista/db" VERSION="20130313" COMMENT="XMLDB file for Moodle grade/export/callista"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="callista_exp_batches" COMMENT="Contains information on the batches that will be or have been sent to the Callista ResultLoad web service." NEXT="callista_exp_marks">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" COMMENT="The identifiers for the batches of marks. Referred to as batch_id elsewhere." NEXT="course_id"/>
+        <FIELD NAME="course_id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The Moodle course id of the unit each batch of marks is for." PREVIOUS="id" NEXT="unit_code"/>
+        <FIELD NAME="unit_code" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Callista's unit code for the unit each batch of marks is for (e.g. STAT100)" PREVIOUS="course_id" NEXT="teach_pd_alt_code"/>
+        <FIELD NAME="teach_pd_alt_code" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The teaching period alternate code the marks in this batch were achieved in, as found in the Callista database." PREVIOUS="unit_code" NEXT="acad_year_alt_code"/>
+        <FIELD NAME="acad_year_alt_code" TYPE="char" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="The alternate code for the academic calendar that the marks in this batch were achieved in. E.g. 2012." PREVIOUS="teach_pd_alt_code" NEXT="status"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="1" SEQUENCE="false" COMMENT="1 - queued and waiting to be sent. null - successfully transferred with no errors. -1 - data errors reported by Callista during transfer. -2 - general error such as HTTP 404." PREVIOUS="acad_year_alt_code" NEXT="loaded_by_username"/>
+        <FIELD NAME="loaded_by_username" TYPE="char" LENGTH="30" NOTNULL="false" SEQUENCE="false" COMMENT="The username of the person who queued this batch of marks." PREVIOUS="status" NEXT="time_when_saved"/>
+        <FIELD NAME="time_when_saved" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="The time when this batch was last written to the database." PREVIOUS="loaded_by_username" NEXT="time_when_queued"/>
+        <FIELD NAME="time_when_queued" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="A timestamp of when each batch of marks was created." PREVIOUS="time_when_saved" NEXT="generated_xml"/>
+        <FIELD NAME="generated_xml" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The xml that was sent to the Callista web service." PREVIOUS="time_when_queued" NEXT="time_when_sent"/>
+        <FIELD NAME="time_when_sent" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="The time when each batch of marks was sent to Callista." PREVIOUS="generated_xml" NEXT="results_xml"/>
+        <FIELD NAME="results_xml" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The xml returned from the Callista web service." PREVIOUS="time_when_sent" NEXT="batch_loaded_flag"/>
+        <FIELD NAME="batch_loaded_flag" TYPE="char" LENGTH="5" NOTNULL="false" SEQUENCE="false" COMMENT="'TRUE' or 'FALSE' indicating whether each batch was loaded into Callista or not." PREVIOUS="results_xml" NEXT="batch_message_text"/>
+        <FIELD NAME="batch_message_text" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The error message describing what went wrong during the web service execution." PREVIOUS="batch_loaded_flag" NEXT="general_error_message"/>
+        <FIELD NAME="general_error_message" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Description of an error that occurred but was not described in the xml returned from the web service." PREVIOUS="batch_message_text"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="status" UNIQUE="false" FIELDS="status" NEXT="course_id"/>
+        <INDEX NAME="course_id" UNIQUE="false" FIELDS="course_id" PREVIOUS="status"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="callista_exp_marks" COMMENT="Contains each student's mark and letter grade for each batch, along with any errors the web service had for each mark." PREVIOUS="callista_exp_batches">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="true" COMMENT="Satisfies Moodle's desire for an id field. Not used for anything really." NEXT="batch_id"/>
+        <FIELD NAME="batch_id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The identifier of the batch of marks this mark is part of." PREVIOUS="id" NEXT="person_id"/>
+        <FIELD NAME="person_id" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Callista's student number for the person who achieved each mark." PREVIOUS="batch_id" NEXT="person_first_name"/>
+        <FIELD NAME="person_first_name" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The first name of the person who achieved this mark." PREVIOUS="person_id" NEXT="person_surname"/>
+        <FIELD NAME="person_surname" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The surname of the student who achieved this mark." PREVIOUS="person_first_name" NEXT="calculated_mark"/>
+        <FIELD NAME="calculated_mark" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="5" COMMENT="The numeric mark the student achieved as generated by the Moodle Gradebook, in the range [0, 100] with up to 5 decimal places." PREVIOUS="person_surname" NEXT="mark_override"/>
+        <FIELD NAME="mark_override" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="5" COMMENT="A mark to give to the student that will override the one provided by the Moodle Gradebook, in the range [0, 100] with up to 5 decimal places." PREVIOUS="calculated_mark" NEXT="derived_grade"/>
+        <FIELD NAME="derived_grade" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="The alphabetic grade the student achieved as derived from the value in the calculated_mark column, such as P, C, D, HD etc." PREVIOUS="mark_override" NEXT="grade_override"/>
+        <FIELD NAME="grade_override" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="A grade to give to the student, such as C, D, HD, etc...,  that overrides the value given in the derived_grade column." PREVIOUS="derived_grade" NEXT="outcome_id"/>
+        <FIELD NAME="outcome_id" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="An index for this student's mark unique in the batch this mark is part of. Required by the web service as the mark's id." PREVIOUS="grade_override" NEXT="course_cd"/>
+        <FIELD NAME="course_cd" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Callista's abbreviation for the course (degree) the student is enrolled in, such as BA for the Bachelor of Arts." PREVIOUS="outcome_id" NEXT="unit_cd"/>
+        <FIELD NAME="unit_cd" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Callista's code for the unit this mark was achieved in (e.g. STAT100)." PREVIOUS="course_cd" NEXT="offering"/>
+        <FIELD NAME="offering" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="The offering option (D = Internal, X = external, P = Placement) the student is enrolled in." PREVIOUS="unit_cd" NEXT="outcome_loaded_flag"/>
+        <FIELD NAME="outcome_loaded_flag" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="A flag indicating whether the mark was loaded into Callista successfully. Should be null , 'TRUE' or 'FALSE'." PREVIOUS="offering" NEXT="outcome_load_message_number"/>
+        <FIELD NAME="outcome_load_message_number" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="A number associated with the outcome_load_message field." PREVIOUS="outcome_loaded_flag" NEXT="outcome_load_message"/>
+        <FIELD NAME="outcome_load_message" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" COMMENT="A message describing if this mark was successfully loaded or why it was not loaded." PREVIOUS="outcome_load_message_number" NEXT="mark_override_manual"/>
+        <FIELD NAME="mark_override_manual" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="1" SEQUENCE="false" COMMENT="1 - Manual mark override else Automatic mark override" PREVIOUS="outcome_load_message" NEXT="grade_override_manual" />
+        <FIELD NAME="grade_override_manual" TYPE="int" LENGTH="2" NOTNULL="false" DEFAULT="1" SEQUENCE="false" COMMENT="1 - Manual grade override else Automatic grade override" PREVIOUS="mark_override_manual" />
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="batch_id"/>
+        <KEY NAME="batch_id" TYPE="foreign" FIELDS="batch_id" REFTABLE="callista_exp_batches" REFFIELDS="id" PREVIOUS="primary"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="batch_id-person_id" UNIQUE="true" FIELDS="batch_id, person_id"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

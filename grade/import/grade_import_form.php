@@ -96,14 +96,21 @@ class grade_import_mapping_form extends moodleform {
 
         $mform->addElement('header', 'general', get_string('identifier', 'grades'));
         $mapfromoptions = array();
+        $mapfromselected = 0;
 
         if ($header) {
             foreach ($header as $i=>$h) {
                 $mapfromoptions[$i] = s($h);
+                if (!empty($CFG->grade_export_mapfromselected) && strtoupper(get_string($CFG->grade_export_mapfromselected)) == strtoupper($h)) {
+                     $mapfromselected = $i;
+                 }
             }
         }
         $mform->addElement('select', 'mapfrom', get_string('mapfrom', 'grades'), $mapfromoptions);
         $mform->addHelpButton('mapfrom', 'mapfrom', 'grades');
+        if (!empty($CFG->grade_export_mapfromselected)) {
+            $mform->setDefault('mapfrom', $mapfromselected);
+        }
 
         $maptooptions = array(
             'userid'       => get_string('userid', 'grades'),
@@ -113,6 +120,9 @@ class grade_import_mapping_form extends moodleform {
             '0'            => get_string('ignore', 'grades')
         );
         $mform->addElement('select', 'mapto', get_string('mapto', 'grades'), $maptooptions);
+        if (!empty($CFG->grade_export_maptoselected)) {
+            $mform->setDefault('mapto', "user{$CFG->grade_export_maptoselected}");
+        }
 
         $mform->addHelpButton('mapto', 'mapto', 'grades');
         $mform->addElement('header', 'general_map', get_string('mappings', 'grades'));

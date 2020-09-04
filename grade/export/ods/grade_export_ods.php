@@ -66,6 +66,9 @@ class grade_export_ods extends grade_export {
         if (!$this->onlyactive) {
             $myxls->write_string(0, $pos++, get_string("suspended"));
         }
+        if (!empty($CFG->grade_export_groups)) {
+            $myxls->write_string(0, $pos++, get_string("groups"));
+        }
         foreach ($this->columns as $grade_item) {
             foreach ($this->displaytype as $gradedisplayname => $gradedisplayconst) {
                 $myxls->write_string(0, $pos++, $this->format_column_name($grade_item, false, $gradedisplayname));
@@ -99,6 +102,9 @@ class grade_export_ods extends grade_export {
             if (!$this->onlyactive) {
                 $issuspended = ($user->suspendedenrolment) ? get_string('yes') : '';
                 $myxls->write_string($i, $j++, $issuspended);
+            }
+            if (!empty($CFG->grade_export_groups)) {
+                $myxls->write_string($i,$j++,$geub->get_user_course_groups($user->id, $this->course->id));
             }
             foreach ($userdata->grades as $itemid => $grade) {
                 if ($export_tracking) {

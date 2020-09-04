@@ -1,0 +1,10 @@
+{
+    "name": "moodle-gradeexport_callista-autocomplete",
+    "builds": {
+        "moodle-gradeexport_callista-autocomplete": {
+            "jsfiles": [
+                "autocomplete.js"
+            ]
+        }
+    }
+}

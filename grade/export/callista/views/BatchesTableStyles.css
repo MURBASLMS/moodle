@@ -1,0 +1,10 @@
+/* copyright 2012 onwards University of New England */
+#batchTable td {
+    vertical-align: middle;
+}
+
+#batchTable .viewBatchImage {
+    vertical-align: middle;
+    padding-left: 0.3em;
+}
+

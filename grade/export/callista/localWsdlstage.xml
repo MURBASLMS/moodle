@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<WL5G3N1:definitions name="resultLoad" targetNamespace="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl" xmlns="" xmlns:WL5G3N0="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:WL5G3N1="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N2="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl/types/" xmlns:WL5G3N3="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl" xmlns:WL5G3N4="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+  <wsp:UsingPolicy WL5G3N1:Required="true"/>
+  <wsp:Policy WL5G3N0:Id="Auth.xml">
+    <wssp:Identity xmlns:wssp="http://www.bea.com/wls90/security/policy">
+      <wssp:SupportedTokens>
+        <wssp:SecurityToken TokenType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken">
+          <wssp:UsePassword Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"/>
+        </wssp:SecurityToken>
+      </wssp:SupportedTokens>
+    </wssp:Identity>
+  </wsp:Policy>
+  <WL5G3N1:types>
+    <xsd:schema elementFormDefault="qualified" targetNamespace="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl/types/" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl/types/" xmlns:tns0="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl/types/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <xsd:complexType name="AssoPrcRsltLoadUser">
+        <xsd:complexContent>
+          <xsd:extension base="tns:AssoPrcRsltLoadBase">
+            <xsd:sequence>
+              <xsd:element name="teachAltCd" nillable="true" type="string"/>
+              <xsd:element name="loadedBy" nillable="true" type="string"/>
+              <xsd:element name="acadAltCd" nillable="true" type="string"/>
+              <xsd:element name="teachCiSeqNumber" nillable="true" type="decimal"/>
+              <xsd:element name="teachCalType" nillable="true" type="string"/>
+              <xsd:element name="batchId" nillable="true" type="decimal"/>
+              <xsd:element name="stdntUnitAtmptOutcome" nillable="true" type="tns:AsstPrcSuaoT"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AsstPrcSuaoT">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" nillable="true" type="tns:AssoPrcSuaoUser"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcSuaoUser">
+        <xsd:complexContent>
+          <xsd:extension base="tns:AssoPrcSuaoBase">
+            <xsd:sequence>
+              <xsd:element name="courseCd" nillable="true" type="string"/>
+              <xsd:element name="grade" nillable="true" type="string"/>
+              <xsd:element name="surname" nillable="true" type="string"/>
+              <xsd:element name="personId" nillable="true" type="decimal"/>
+              <xsd:element name="mark" nillable="true" type="decimal"/>
+              <xsd:element name="outcomeId" nillable="true" type="decimal"/>
+              <xsd:element name="unitCd" nillable="true" type="string"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcSuaoBase">
+        <xsd:sequence/>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcRsltLoadBase">
+        <xsd:sequence/>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcRsltLoadReturnUser">
+        <xsd:complexContent>
+          <xsd:extension base="tns:AssoPrcRsltLoadReturnBase">
+            <xsd:sequence>
+              <xsd:element name="batchMessageText" nillable="true" type="string"/>
+              <xsd:element name="batchLoadedFlag" nillable="true" type="string"/>
+              <xsd:element name="batchId" nillable="true" type="decimal"/>
+              <xsd:element name="suaoReturnMessages" nillable="true" type="tns:AsstPrcSuaoMessageT"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AsstPrcSuaoMessageT">
+        <xsd:sequence>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" nillable="true" type="tns:AssoPrcSuaoMessageUser"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcSuaoMessageUser">
+        <xsd:complexContent>
+          <xsd:extension base="tns:AssoPrcSuaoMessageBase">
+            <xsd:sequence>
+              <xsd:element name="courseCd" nillable="true" type="string"/>
+              <xsd:element name="outcomeLoadedFlag" nillable="true" type="string"/>
+              <xsd:element name="personId" nillable="true" type="decimal"/>
+              <xsd:element name="outcomeId" nillable="true" type="decimal"/>
+              <xsd:element name="outcomeLoadMessage" nillable="true" type="string"/>
+              <xsd:element name="unitCd" nillable="true" type="string"/>
+              <xsd:element name="outcomeLoadMessageNumber" nillable="true" type="decimal"/>
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcSuaoMessageBase">
+        <xsd:sequence/>
+      </xsd:complexType>
+      <xsd:complexType name="AssoPrcRsltLoadReturnBase">
+        <xsd:sequence/>
+      </xsd:complexType>
+    </xsd:schema>
+  </WL5G3N1:types>
+  <WL5G3N1:message name="ResultLoad_loadResult">
+    <WL5G3N1:part name="pRsltLoad" type="WL5G3N2:AssoPrcRsltLoadUser"/>
+    <WL5G3N1:part name="pRsltLoadReturn_out" type="WL5G3N2:AssoPrcRsltLoadReturnUser"/>
+  </WL5G3N1:message>
+  <WL5G3N1:message name="ResultLoad_loadResultResponse">
+    <WL5G3N1:part name="pRsltLoadReturn_out" type="WL5G3N2:AssoPrcRsltLoadReturnUser"/>
+  </WL5G3N1:message>
+  <WL5G3N1:portType name="resultLoad">
+    <WL5G3N1:operation name="loadResult" parameterOrder="pRsltLoad pRsltLoadReturn_out">
+      <WL5G3N1:input message="WL5G3N3:ResultLoad_loadResult"/>
+      <WL5G3N1:output message="WL5G3N3:ResultLoad_loadResultResponse"/>
+    </WL5G3N1:operation>
+  </WL5G3N1:portType>
+  <WL5G3N1:binding name="resultLoad" type="WL5G3N3:resultLoad">
+    <WL5G3N4:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <WL5G3N1:operation name="loadResult">
+      <WL5G3N4:operation soapAction="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl/loadResult"/>
+      <WL5G3N1:input>
+        <wsp:Policy>
+          <wsp:PolicyReference URI="#Auth.xml"/>
+        </wsp:Policy>
+        <WL5G3N4:body namespace="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl" parts="pRsltLoad pRsltLoadReturn_out" use="literal"/>
+      </WL5G3N1:input>
+      <WL5G3N1:output>
+        <WL5G3N4:body namespace="http://au/com/callista/ws/resultLoad/ResultLoad.wsdl" parts="pRsltLoadReturn_out" use="literal"/>
+      </WL5G3N1:output>
+    </WL5G3N1:operation>
+  </WL5G3N1:binding>
+  <WL5G3N1:service name="resultLoad">
+    <WL5G3N1:port binding="WL5G3N3:resultLoad" name="resultLoadPort">
+      <WL5G3N4:address location="https://siswsr.murdoch.edu.au/resultLoad/resultLoadPort"/>
+    </WL5G3N1:port>
+  </WL5G3N1:service>
+</WL5G3N1:definitions>

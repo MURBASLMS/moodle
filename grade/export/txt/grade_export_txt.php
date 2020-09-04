@@ -66,6 +66,9 @@ class grade_export_txt extends grade_export {
         if (!$this->onlyactive) {
             $exporttitle[] = get_string("suspended");
         }
+        if (!empty($CFG->grade_export_groups)) {
+            $exporttitle[] = get_string("groups");
+        }
 
         // Add grades and feedback columns.
         foreach ($this->columns as $grade_item) {
@@ -98,6 +101,9 @@ class grade_export_txt extends grade_export {
             if (!$this->onlyactive) {
                 $issuspended = ($user->suspendedenrolment) ? get_string('yes') : '';
                 $exportdata[] = $issuspended;
+            }
+            if (!empty($CFG->grade_export_groups)) {
+                $exportdata[] = $geub->get_user_course_groups($user->id, $this->course->id);
             }
             foreach ($userdata->grades as $itemid => $grade) {
                 if ($export_tracking) {

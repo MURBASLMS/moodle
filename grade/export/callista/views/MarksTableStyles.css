@@ -1,0 +1,58 @@
+/* copyright 2012 onwards University of New England */
+#keybox {
+    float: right;
+}
+
+#marksTableHeadingTable {
+    width: 100%;
+}
+
+#marksTableHeadingCell {
+    vertical-align: bottom;
+}
+
+.malformed, #markstable .malformed {
+    background-color: #ffbbbb;      /* pale red */
+}
+
+.overridden, #markstable .overridden {
+    background-color: #ddaaff;      /* pale purple */
+}
+
+.manuallyoverridden, #markstable .manuallyoverridden {
+    background-color: #ddaaff;      /* pale purple */
+}
+
+.autooverridden, #markstable .autooverridden {
+    background-color: #aaffaa;      /* light green */
+}
+
+.enrolment, #markstable .enrolment .cell {
+    background-color: #aaffdd;      /* aquamarine */
+}
+
+.unenrolment, #markstable .unenrolment .cell {
+    background-color: #bbddff;      /* pale blue */
+}
+
+.transferSuccessful, #markstable .transferSuccessful .cell {
+    background-color: #aaffaa;      /* light green */
+}
+
+.transferWarning, #markstable .transferWarning .cell {
+    background-color: #fff1b5;     /* pale yellow */
+}
+
+.transferFailed, #markstable .transferFailed .cell {
+    background-color: #ffbbbb;      /* pale red */
+}
+
+.rejectedLastTime, #markstable .rejectedLastTime {
+    background-color: #bbddff;       /* pale blue */
+}
+
+/* background-size is separate because it is from css3, and the css1 will still work if it fails.' */
+.busyBackground {
+    background: center center no-repeat url('images/busySorting.gif');
+    background-size: contain;
+}

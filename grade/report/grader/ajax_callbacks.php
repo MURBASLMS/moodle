@@ -126,7 +126,7 @@ switch ($action) {
                     $json_object->message = false;
                 } else {
                     $json_object->result = 'error';
-                    $json_object->message = "TO BE LOCALISED: Failure to update final grade!";
+                    $json_object->message = get_string('gradelockederror', 'grades');
                     echo json_encode($json_object);
                     die();
                 }

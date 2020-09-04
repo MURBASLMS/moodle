@@ -1324,9 +1324,7 @@ function grade_build_nav($path, $pagename=null, $id=null) {
     $strgrades = get_string('grades', 'grades');
 
     // Parse the path and build navlinks from its elements
-    $dirroot_length = strlen($CFG->dirroot) + 1; // Add 1 for the first slash
-    $path = substr($path, $dirroot_length);
-    $path = str_replace('\\', '/', $path);
+    $path = substr($PAGE->url->out_as_local_url(), 1);
 
     $path_elements = explode('/', $path);
 
@@ -3262,6 +3260,17 @@ abstract class grade_helper {
         }
         if (count($exportplugins) > 0) {
             asort($exportplugins);
+            if (!empty($CFG->grade_export_xlsfirst)) {
+                // Push xls to beginning comparison function.
+                uasort($exportplugins, function($a, $b) {
+                    if ($a->id == 'xls') {
+                        return -1;
+                    } else if ($b->id == 'xls') {
+                        return 1;
+                    }
+                    return $a->id <= $b->id ? -1 : 1;
+                 });
+            }
             self::$exportplugins = $exportplugins;
         } else {
             self::$exportplugins = false;

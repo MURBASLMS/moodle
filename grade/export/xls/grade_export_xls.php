@@ -37,7 +37,7 @@ class grade_export_xls extends grade_export {
     /**
      * To be implemented by child classes
      */
-    public function print_grades() {
+     public function print_grades($sendhttp = true) {
         global $CFG;
         require_once($CFG->dirroot.'/lib/excellib.class.php');
 
@@ -52,7 +52,7 @@ class grade_export_xls extends grade_export {
         $shortname = format_string($this->course->shortname, true, array('context' => context_course::instance($this->course->id)));
         $downloadfilename = clean_filename("$shortname $strgrades.xls");
         // Creating a workbook
-        $workbook = new MoodleExcelWorkbook("-");
+        $workbook = new MoodleExcelWorkbook($sendhttp ? "-" : $downloadfilename);
         // Sending HTTP headers
         $workbook->send($downloadfilename);
         // Adding the worksheet
@@ -66,6 +66,9 @@ class grade_export_xls extends grade_export {
         $pos = count($profilefields);
         if (!$this->onlyactive) {
             $myxls->write_string(0, $pos++, get_string("suspended"));
+        }
+        if (!empty($CFG->grade_export_groups)) {
+            $myxls->write_string(0, $pos++, get_string("groups"));
         }
         foreach ($this->columns as $grade_item) {
             foreach ($this->displaytype as $gradedisplayname => $gradedisplayconst) {
@@ -99,6 +102,9 @@ class grade_export_xls extends grade_export {
                 $issuspended = ($user->suspendedenrolment) ? get_string('yes') : '';
                 $myxls->write_string($i, $j++, $issuspended);
             }
+            if (!empty($CFG->grade_export_groups)) {
+                $myxls->write_string($i,$j++,$geub->get_user_course_groups($user->id, $this->course->id));
+            }
             foreach ($userdata->grades as $itemid => $grade) {
                 if ($export_tracking) {
                     $status = $geub->track($grade);
@@ -123,7 +129,7 @@ class grade_export_xls extends grade_export {
         $geub->close();
 
     /// Close the workbook
-        $workbook->close();
+        $workbook->close($sendhttp);
 
         exit;
     }
