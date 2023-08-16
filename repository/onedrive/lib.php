@@ -960,9 +960,10 @@ class repository_onedrive extends repository {
             $filename = clean_param($source->name, PARAM_PATH);
             $filepath = $this->generate_system_account_filepath_from_context($systemservice, $context, $component,
                 $filearea, $itemid, $filename);
+            $path = $filepath->fullpath . '/' . $filename;
 
             // Delete any conflicting file.
-            $this->delete_file_by_path($systemservice, $filepath->fullpath . '/' . $filename);
+            $this->delete_file_by_path($systemservice, $path);
 
             // Retrieve the user's ID.
             $resp = $userservice->call("me", []);
@@ -996,7 +997,7 @@ class repository_onedrive extends repository {
 
             // Poll the status URL.
             $curl = new \curl();
-            $tryuntil = time() + 30;
+            $tryuntil = time() + 10;
             $copiedfiledid = null;
             while (time() < $tryuntil) {
                 $resp = $curl->get($location);
@@ -1010,6 +1011,14 @@ class repository_onedrive extends repository {
                 }
                 sleep(1);
             }
+
+            // Waiting for the file to be copied can take several minutes, but we may already be able
+            // to retrieve the file ID directly. The file may not yet be fully available, but it should
+            // be present in the system account's drive, and can be shared.
+            if (empty($copiedfiledid)) {
+                $copiedfiledid = $this->get_file_id_by_path($systemservice, $path) ?: null;
+            }
+
             if (empty($copiedfiledid)) {
                 $details = "Could not retrieve the ID of the file being copied.";
                 throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
