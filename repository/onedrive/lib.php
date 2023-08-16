@@ -931,24 +931,118 @@ class repository_onedrive extends repository {
      * @return string The copied file ID.
      */
     protected function copy_file_to_system_account($userauth, $systemauth, $source, $context, $component, $filearea, $itemid) {
-        global $CFG, $SITE;
-
+        $fileid = $source->id;
+        $userservice = new repository_onedrive\rest($userauth);
         $systemservice = new repository_onedrive\rest($systemauth);
+        $systemaccount = \core\oauth2\api::get_system_account($this->issuer);
 
-        // Download the file.
-        $tmpfilename = clean_param($source->id, PARAM_PATH);
-        $temppath = make_request_directory() . $tmpfilename;
+        // Share the file with the system account.
+        $params = ['fileid' => $fileid];
+        $response = $userservice->call('create_permission', $params, json_encode([
+            'recipients' => [['email' => $systemaccount->get('email')]],
+            'roles' => ['read'],
+            'requireSignIn' => true,
+            'sendInvitation' => false
+        ]));
+        if (empty($response->value[0]->id)) {
+            $details = "Cannot add system user {$systemaccount->get('email')} as a reader of {$fileid}.";
+            throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+        }
+        $permissionid = $response->value[0]->id;
 
         // We cannot send authorization headers in the direct download request, it will fail.
         $c = new curl();
         $options = ['filepath' => $temppath, 'timeout' => 60, 'followlocation' => true, 'maxredirs' => 5];
         $result = $c->download_one($downloadurl, null, $options);
+        $caughtexception = null;
+        try {
+            // Get a path to upload the file at.
+            $filename = clean_param($source->name, PARAM_PATH);
+            $filepath = $this->generate_system_account_filepath_from_context($systemservice, $context, $component,
+                $filearea, $itemid, $filename);
 
-        if (!$result) {
-            throw new repository_exception('cannotdownload', 'repository');
+            // Delete any conflicting file.
+            $this->delete_file_by_path($systemservice, $filepath->fullpath . '/' . $filename);
+
+            // Retrieve the user's ID.
+            $resp = $userservice->call("me", []);
+            $msuserid = $resp->id;
+
+            // Retrieve the system's account drive ID.
+            $resp = $systemservice->call("my_drive", []);
+            $systemdriveid = $resp->id;
+
+            // Instruct to copy the file.
+            $rawheaders = $systemservice->call('copy_user_file', [
+                'userid' => $msuserid,
+                'fileid' => $fileid
+            ], json_encode([
+                'parentReference' => [
+                    'id' => $filepath->parentid,
+                    'driveId' => $systemdriveid,
+                ],
+                'name' => $filename
+            ]));
+            $location = null;
+            foreach ($rawheaders as $rawheader) {
+                if (core_text::strtolower(core_text::substr($rawheader, 0, 9)) === 'location:') {
+                    $location = trim(explode(':', $rawheader, 2)[1]);
+                }
+            }
+            if (empty($location)) {
+                $details = "Could not retrieve polling URL for async copy file.";
+                throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+            }
+
+            // Poll the status URL.
+            $curl = new \curl();
+            $tryuntil = time() + 30;
+            $copiedfiledid = null;
+            while (time() < $tryuntil) {
+                $resp = $curl->get($location);
+                if ($curl->errno !== 0) {
+                    break;
+                }
+                $result = json_decode($resp);
+                if ($result && !empty($result->resourceId)) {
+                    $copiedfiledid = $result->resourceId;
+                    break;
+                }
+                sleep(1);
+            }
+            if (empty($copiedfiledid)) {
+                $details = "Could not retrieve the ID of the file being copied.";
+                throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+            }
+
+        } catch (\Exception $e) {
+            $caughtexception = $e;
         }
 
-        // Now copy it to a sensible folder.
+        // Always attempt to revoke the read permission.
+        $userservice->call('delete_permission', ['fileid' => $fileid, 'permissionid' => $permissionid]);
+
+        // Re-throw the exception.
+        if ($caughtexception) {
+            throw $e;
+        }
+
+        return $copiedfiledid;
+    }
+
+    /**
+     * Generate a path to store a file in the system account.
+     *
+     * @param \repository_onedrive\rest $service The REST service.
+     * @param \context $context The context.
+     * @param string $component The target context for this new file.
+     * @param string $filearea The target filearea for this new file.
+     * @param string $itemid the Target itemid for this new file.
+     * @return object Contains 'fullpath' and 'parentid'.
+     */
+    protected function generate_system_account_filepath_from_context($service, $context, $component, $filearea, $itemid) {
+        global $CFG, $SITE;
+
         $contextlist = array_reverse($context->get_parent_contexts(true));
 
         $cache = cache::make('repository_onedrive', 'folder');
@@ -990,30 +1084,22 @@ class repository_onedrive extends repository {
 
             $folderid = $cache->get($fullpath);
             if (empty($folderid)) {
-                $folderid = $this->get_file_id_by_path($systemservice, $fullpath);
+                $folderid = $this->get_file_id_by_path($service, $fullpath);
             }
             if ($folderid !== false) {
                 $cache->set($fullpath, $folderid);
                 $parentid = $folderid;
             } else {
                 // Create it.
-                $parentid = $this->create_folder_in_folder($systemservice, $foldername, $parentid);
+                $parentid = $this->create_folder_in_folder($service, $foldername, $parentid);
                 $cache->set($fullpath, $parentid);
             }
         }
 
-        // Delete any existing file at this path.
-        $path = $fullpath . '/' . urlencode(clean_param($source->name, PARAM_PATH));
-        $this->delete_file_by_path($systemservice, $path);
-
-        // Upload the file.
-        $safefilename = clean_param($source->name, PARAM_PATH);
-        $mimetype = $this->get_mimetype_from_filename($safefilename);
-        // We cannot send authorization headers in the upload or personal microsoft accounts will fail (what a joke!).
-        $curl = new \curl();
-        $fileid = $this->upload_file($systemservice, $curl, $systemauth, $temppath, $mimetype, $parentid, $safefilename);
-
-        return $fileid;
+        return (object) [
+            'parentid' => $parentid,
+            'fullpath' => $fullpath,
+        ];
     }
 
     /**
