@@ -997,9 +997,10 @@ class repository_onedrive extends repository {
 
             // Poll the status URL.
             $curl = new \curl();
-            $tryuntil = time() + 10;
+            $timeout = 0;
+            $tryuntil = time() + 0;
             $copiedfiledid = null;
-            while (time() < $tryuntil) {
+            do {
                 $resp = $curl->get($location);
                 if ($curl->errno !== 0) {
                     break;
@@ -1010,7 +1011,7 @@ class repository_onedrive extends repository {
                     break;
                 }
                 sleep(1);
-            }
+            } while (time() < $tryuntil);
 
             // Waiting for the file to be copied can take several minutes, but we may already be able
             // to retrieve the file ID directly. The file may not yet be fully available, but it should
