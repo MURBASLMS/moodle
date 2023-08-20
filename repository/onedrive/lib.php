@@ -1024,20 +1024,29 @@ class repository_onedrive extends repository {
                 // the file ID by path, even though the transfer has not been completed. If it appears
                 // in a failed state, we exit. Otherwise we loop and query the polling URL again.
                 $status = $result->status;
-                if (in_array($status, ['inProgress', 'completed']) && !empty($result->percentageComplete)) {
+                if (in_array($status, ['inProgress', 'completed'])) {
                     break;
                 } else if (in_array($status, ['failed', 'cancelled', 'cancelPending'])) {
                     $details = "The file transfer has failed with status: $status";
                     throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
                 }
+                debugging("Looping with $status", DEBUG_DEVELOPER);
 
                 sleep(1);
             } while (time() < $tryuntil);
 
             // The file may not yet be fully available, but it should be present in the system
-            // account's drive, and can already be shared.
+            // account's drive, and can already be shared. Although, it appears that in some
+            // occasion the file cannot be read by path, so we allow for some leniency.
             if (empty($copiedfiledid)) {
-                $copiedfiledid = $this->get_file_id_by_path($systemservice, $path) ?: null;
+                $attempts = 0;
+                do {
+                    $copiedfiledid = $this->get_file_id_by_path($systemservice, $path) ?: null;
+                    if ($copiedfiledid) {
+                        break;
+                    }
+                    sleep(1);
+                } while ($attempts++ < 3);
             }
 
             if (empty($copiedfiledid)) {
