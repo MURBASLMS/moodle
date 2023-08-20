@@ -999,25 +999,43 @@ class repository_onedrive extends repository {
 
             // Poll the status URL.
             $curl = new \curl();
-            $timeout = 0;
+            $timeout = 10;
             $tryuntil = time() + $timeout;
             $copiedfiledid = null;
             do {
                 $resp = $curl->get($location);
                 if ($curl->errno !== 0) {
-                    break;
+                    $details = "Querying polling URL failed with error: {$curl->error}";
+                    throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
                 }
                 $result = json_decode($resp);
-                if ($result && !empty($result->resourceId)) {
+                if (!$result) {
+                    $details = "Unexpected, or unable to parse, response from polling URL: {$resp}";
+                    throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+                }
+
+                // If we get a resourceId, the transfer is complete.
+                if (!empty($result->resourceId)) {
                     $copiedfiledid = $result->resourceId;
                     break;
                 }
+
+                // If the file transfer has started, we assume that it is enough for us to retrieve
+                // the file ID by path, even though the transfer has not been completed. If it appears
+                // in a failed state, we exit. Otherwise we loop and query the polling URL again.
+                $status = $result->status;
+                if (in_array($status, ['inProgress', 'completed'])) {
+                    break;
+                } else if (in_array($status, ['failed', 'cancelled', 'cancelPending'])) {
+                    $details = "The file transfer has failed with status: $status";
+                    throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+                }
+
                 sleep(1);
             } while (time() < $tryuntil);
 
-            // Waiting for the file to be copied can take several minutes, but we may already be able
-            // to retrieve the file ID directly. The file may not yet be fully available, but it should
-            // be present in the system account's drive, and can be shared.
+            // The file may not yet be fully available, but it should be present in the system
+            // account's drive, and can already be shared.
             if (empty($copiedfiledid)) {
                 $copiedfiledid = $this->get_file_id_by_path($systemservice, $path) ?: null;
             }
