@@ -1024,7 +1024,7 @@ class repository_onedrive extends repository {
                 // the file ID by path, even though the transfer has not been completed. If it appears
                 // in a failed state, we exit. Otherwise we loop and query the polling URL again.
                 $status = $result->status;
-                if (in_array($status, ['inProgress', 'completed'])) {
+                if (in_array($status, ['inProgress', 'completed']) && !empty($result->percentageComplete)) {
                     break;
                 } else if (in_array($status, ['failed', 'cancelled', 'cancelPending'])) {
                     $details = "The file transfer has failed with status: $status";
