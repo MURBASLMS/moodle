@@ -358,7 +358,9 @@ class page_requirements_manager {
 
         // Accessibility stuff.
         $this->skip_link_to('maincontent', get_string('tocontent', 'access'));
-
+        if ($page->blocks->is_block_present('alp_player')) {
+            $this->skip_link_to('echo-recordings-block-link', 'Echo recordings block');
+        } 
         // Add strings used on many pages.
         $this->string_for_js('confirmation', 'admin');
         $this->string_for_js('cancel', 'moodle');
