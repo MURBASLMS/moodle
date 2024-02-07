@@ -170,6 +170,7 @@ if (has_capability('moodle/grade:viewall', $context) && $courseid != SITEID) {
             echo $OUTPUT->header();
             if ($report->fill_table(true, true)) {
                 echo html_writer::tag('h3', get_string('coursesiamtaking', 'grades'));
+                echo '<p>Please be advised that the information on this page may be partial, as it depends on the unit settings configured by unit coordinators. For a comprehensive list of your units and grades, please refer to the Results section in <a href="https://goto.murdoch.edu.au/myinfo" target="_blank" />myinfo</a><p>';
                 echo '<br />' . $report->print_table(true);
             }
         } else { // We have a course context. We must be navigating from the gradebook.
