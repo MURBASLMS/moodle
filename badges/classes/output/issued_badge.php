@@ -141,7 +141,7 @@ class issued_badge implements renderable {
 
         // Fields: Name, description, issuedOn.
         $data->badgename = $badge->name;
-        $data->badgedescription = $badge->description;
+        $data->badgedescription = markdown_to_html($badge->description);
         $data->badgeissuedon = $this->issued['issuedOn'];
 
         // Field: Recipient (the badge was awarded to this person).
