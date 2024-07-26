@@ -1,0 +1,380 @@
+[submodule "report/benchmark"]
+	path = report/benchmark
+	url = https://github.com/mikasmart/moodle-report_benchmark.git
+[submodule "admin/tool/blocksmanager"]
+	path = admin/tool/blocksmanager
+	url = https://github.com/catalyst/moodle_tool_blocksmanager.git
+[submodule "course/format/topcoll"]
+	path = course/format/topcoll
+	url = https://github.com/gjb2048/moodle-format_topcoll.git
+[submodule "blocks/configurable_reports"]
+	path = blocks/configurable_reports
+	url = https://github.com/jleyva/moodle-block_configurablereports.git
+[submodule "mod/ouwiki"]
+	path = mod/ouwiki
+	url = https://github.com/moodleou/moodle-mod_ouwiki.git
+[submodule "mod/oublog"]
+	path = mod/oublog
+	url = https://github.com/moodleou/moodle-mod_oublog.git
+[submodule "mod/questionnaire"]
+	path = mod/questionnaire
+	url = https://github.com/PoetOS/moodle-mod_questionnaire.git
+[submodule "mod/attendance"]
+	path = mod/attendance
+	url = https://github.com/danmarsden/moodle-mod_attendance.git
+[submodule "lib/editor/atto/plugins/generico"]
+	path = lib/editor/atto/plugins/generico
+	url = https://github.com/justinhunt/moodle-atto_generico.git
+[submodule "mod/hsuforum"]
+	path = mod/hsuforum
+	url = https://github.com/blackboard-open-source/moodle-mod_hsuforum.git
+[submodule "filter/generico"]
+	path = filter/generico
+	url = https://github.com/justinhunt/moodle-filter_generico.git
+[submodule "blocks/xp"]
+	path = blocks/xp
+	url = https://github.com/FMCorz/moodle-block_xp.git
+[submodule "availability/condition/xp"]
+	path = availability/condition/xp
+	url = https://github.com/FMCorz/moodle-availability_xp.git
+[submodule "lib/editor/atto/plugins/styles"]
+	path = lib/editor/atto/plugins/styles
+	url = https://github.com/moodleuulm/moodle-atto_styles.git
+[submodule "mod/groupselect"]
+	path = mod/groupselect
+	url = https://github.com/rogerbaba/moodle-mod_groupselect.git
+[submodule "course/format/grid"]
+	path = course/format/grid
+	url = https://github.com/gjb2048/moodle-format_grid.git
+[submodule "plagiarism/urkund"]
+	path = plagiarism/urkund
+	url = https://github.com/danmarsden/moodle-plagiarism_urkund.git
+[submodule "report/editdates"]
+	path = report/editdates
+	url = https://github.com/moodleou/moodle-report_editdates.git
+[submodule "report/coursesize"]
+	path = report/coursesize
+	url = https://github.com/catalyst/moodle-report_coursesize.git
+[submodule "local/callistabase"]
+	path = local/callistabase
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_callistabase
+[submodule "blocks/callista"]
+	path = blocks/callista
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_callista
+[submodule "mod/pearson"]
+	path = mod/pearson
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_pearson
+[submodule "local/nsws"]
+	path = local/nsws
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mdl-local_nsws
+[submodule "filter/fontawesome"]
+	path = filter/fontawesome
+	url = https://github.com/adpe/moodle-filter_fontawesome.git
+[submodule "mod/aspirelists"]
+	path = mod/aspirelists
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_aspirelists
+[submodule "mod/alplinks"]
+	path = mod/alplinks
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_alplinks
+[submodule "mod/customcert"]
+	path = mod/customcert
+	url = https://github.com/markn86/moodle-mod_customcert.git
+[submodule "blocks/studiosity"]
+	path = blocks/studiosity
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/studiosity
+[submodule "mod/checklist"]
+	path = mod/checklist
+	url = https://github.com/davosmith/moodle-checklist.git
+[submodule "mod/lightboxgallery"]
+	path = mod/lightboxgallery
+	url = https://github.com/netspotau/moodle-mod_lightboxgallery.git
+[submodule "blocks/studentstracker"]
+	path = blocks/studentstracker
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_studentstracker
+[submodule "local/pearson"]
+	path = local/pearson
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_pearson
+[submodule "blocks/callista_activation_date"]
+	path = blocks/callista_activation_date
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/blocks_callista_activation_date
+[submodule "blocks/pearson"]
+	path = blocks/pearson
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_pearson
+[submodule "blocks/completion_progress"]
+	path = blocks/completion_progress
+	url = https://github.com/jonof/moodle-block_completion_progress.git
+[submodule "filter/tabs"]
+	path = filter/tabs
+	url = https://github.com/branchup/moodle-filter_tabs.git
+[submodule "local/userenrols"]
+	path = local/userenrols
+	url = https://github.com/appalachianstate/moodle-local_userenrols.git
+[submodule "blocks/progress"]
+	path = blocks/progress
+	url = https://github.com/tristanmurdoch/Moodle-block_progress.git
+[submodule "blocks/alp_player"]
+	path = blocks/alp_player
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/alp_player
+[submodule "blocks/mooprofile"]
+	path = blocks/mooprofile
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/moodleprofile
+[submodule "local/gradebookexport"]
+	path = local/gradebookexport
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_gradebookexport
+[submodule "lib/editor/atto/plugins/echo360attoplugin"]
+	path = lib/editor/atto/plugins/echo360attoplugin
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/echo360attoplugin
+[submodule "filter/echo360"]
+	path = filter/echo360
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360
+[submodule "grade/import/kioskpearsonjson"]
+	path = grade/import/kioskpearsonjson
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/grade_import_kioskpearsonjson
+[submodule "local/mylabmastering"]
+	path = local/mylabmastering
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_mylabmastering
+[submodule "mod/mylabmastering"]
+	path = mod/mylabmastering
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_mylabmastering
+[submodule "blocks/mylabmastering"]
+	path = blocks/mylabmastering
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/blocks_mylabmastering
+[submodule "customscripts"]
+	path = customscripts
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/customscripts
+[submodule "admin/tool/brcli"]
+	path = admin/tool/brcli
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/admin_tool_backup_restore
+[submodule "admin/tool/webanalytics"]
+	path = admin/tool/webanalytics
+	url = https://github.com/catalyst/moodle-tool_webanalytics.git
+[submodule "lib/editor/atto/plugins/wiris"]
+	path = lib/editor/atto/plugins/wiris
+	url = https://github.com/wiris/moodle-atto_wiris.git
+[submodule "filter/wiris"]
+	path = filter/wiris
+	url = https://github.com/wiris/moodle-filter_wiris.git
+[submodule "mod/quiz/accessrule/honestycheck"]
+	path = mod/quiz/accessrule/honestycheck
+	url = https://github.com/moodleou/moodle-quizaccess_honestycheck.git
+[submodule "enrol/auto"]
+	path = enrol/auto
+	url = https://github.com/catalyst/moodle-enrol_auto.git
+[submodule "mod/hvp"]
+	path = mod/hvp
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mdl32_h5p
+[submodule "local/intelliboard"]
+	path = local/intelliboard
+	url = https://github.com/intelliboard/intelliboard.git
+[submodule "admin/tool/trigger"]
+	path = admin/tool/trigger
+	url = https://github.com/catalyst/moodle-tool_trigger.git
+[submodule "webservice/restful"]
+	path = webservice/restful
+	url = https://github.com/catalyst/moodle-webservice_restful.git
+[submodule "blocks/surveylinks"]
+	path = blocks/surveylinks
+	url = https://github.com/MURBASLMS/block_surveylinks.git
+[submodule "local/assessfreq"]
+	path = local/assessfreq
+	url = https://github.com/catalyst/moodle-local_assessfreq.git
+[submodule "local/xp"]
+	path = local/xp
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_xp
+[submodule "course/format/onetopic"]
+	path = course/format/onetopic
+	url = https://github.com/davidherney/moodle-format_onetopic.git
+[submodule "report/componentgrades"]
+	path = report/componentgrades
+	url = https://github.com/pauln/moodle-report_componentgrades.git
+[submodule "lib/editor/atto/plugins/snippet"]
+	path = lib/editor/atto/plugins/snippet
+	url = https://github.com/justinhunt/moodle-atto_snippet.git
+[submodule "local/users_ws"]
+	path = local/users_ws
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local-users_ws
+[submodule "admin/tool/migratehvp2h5p"]
+	path = admin/tool/migratehvp2h5p
+	url = https://github.com/moodlehq/moodle-tool_migratehvp2h5p.git
+[submodule "lib/editor/atto/plugins/cloze"]
+	path = lib/editor/atto/plugins/cloze
+	url = https://github.com/dthies/moodle-atto_cloze.git
+[submodule "files/converter/onedrive"]
+	path = files/converter/onedrive
+	url = https://bitbucket.org/uonmoodle/moodle-fileconverter_onedrive.git
+[submodule "admin/tool/objectfs"]
+	path = admin/tool/objectfs
+	url = https://github.com/catalyst/moodle-tool_objectfs.git
+[submodule "local/azure_storage"]
+	path = local/azure_storage
+	url = https://github.com/catalyst/moodle-local_azure_storage.git
+[submodule "question/behaviour/deferredfeedbackexplain"]
+	path = question/behaviour/deferredfeedbackexplain
+	url = https://github.com/timhunt/moodle-qbehaviour_deferredfeedbackexplain.git
+[submodule "filter/echo360du"]
+	path = filter/echo360du
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360du
+[submodule "enrol/coursecompleted"]
+	path = enrol/coursecompleted
+	url = https://github.com/ewallah/moodle-enrol_coursecompleted.git
+[submodule "blocks/boost_employability"]
+	path = blocks/boost_employability
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_boost_employability
+[submodule "local/o365"]
+	path = local/o365
+	url = https://github.com/microsoft/moodle-local_o365.git
+[submodule "blocks/microsoft"]
+	path = blocks/microsoft
+	url = https://github.com/microsoft/moodle-block_microsoft.git
+[submodule "local/onenote"]
+	path = local/onenote
+	url = https://github.com/microsoft/moodle-local_onenote.git
+[submodule "mod/assign/submission/onenote"]
+	path = mod/assign/submission/onenote
+	url = https://github.com/microsoft/moodle-assignsubmission_onenote.git
+[submodule "mod/assign/feedback/onenote"]
+	path = mod/assign/feedback/onenote
+	url = https://github.com/microsoft/moodle-assignfeedback_onenote.git
+[submodule "mod/dialogue"]
+	path = mod/dialogue
+	url = https://github.com/danmarsden/moodle-mod_dialogue.git
+[submodule "blocks/coursesearch"]
+	path = blocks/coursesearch
+	url = https://github.com/sharpchi/moodle-block_coursesearch.git
+[submodule "mod/studentquiz"]
+	path = mod/studentquiz
+	url = https://github.com/studentquiz/moodle-mod_studentquiz.git
+[submodule "filter/embedquestion"]
+	path = filter/embedquestion
+	url = https://github.com/moodleou/moodle-filter_embedquestion.git
+[submodule "lib/editor/atto/plugins/embedquestion"]
+	path = lib/editor/atto/plugins/embedquestion
+	url = https://github.com/moodleou/moodle-atto_embedquestion.git
+[submodule "mod/board"]
+	path = mod/board
+	url = https://github.com/brickfield/moodle-mod_board.git
+[submodule "mod/teammeeting"]
+	path = mod/teammeeting
+	url = https://github.com/MURBASLMS/moodle-mod_teammeeting
+[submodule "local/profilecohort"]
+	path = local/profilecohort
+	url = https://github.com/moodleuulm/moodle-local_profilecohort.git
+[submodule "course/format/remuiformat"]
+	path = course/format/remuiformat
+	url = https://github.com/WisdmLabs/moodle-format_remuiformat.git
+[submodule "enrol/groupsync"]
+	path = enrol/groupsync
+	url = https://github.com/moodlehq/moodle-enrol_groupsync.git
+[submodule "filter/filtercodes"]
+	path = filter/filtercodes
+	url = https://github.com/michael-milette/moodle-filter_filtercodes.git
+[submodule "blocks/course_status"]
+	path = blocks/course_status
+	url = https://bitbucket.org/covuni/moodle-block_course_status.git
+[submodule "mod/quiz/accessrule/delayed"]
+	path = mod/quiz/accessrule/delayed
+	url = https://github.com/juacas/quizaccess_delayed.git
+[submodule "blocks/wil"]
+	path = blocks/wil
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_wil
+[submodule "blocks/oua"]
+	path = blocks/oua
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_oua
+[submodule "local/reminders"]
+	path = local/reminders
+	url = https://github.com/isuru89/moodle-local_reminders.git
+
+[submodule "local/sitenotice"]
+	path = local/sitenotice
+	url = https://github.com/catalyst/moodle-local_sitenotice.git
+[submodule "blocks/cohortspecifichtml"]
+	path = blocks/cohortspecifichtml
+	url = https://github.com/moodle-an-hochschulen/moodle-block_cohortspecifichtml.git
+[submodule "mod/facetoface"]
+	path = mod/facetoface
+	url = https://github.com/catalyst/moodle-mod_facetoface.git
+[submodule "mod/pdfannotator"]
+	path = mod/pdfannotator
+	url = https://github.com/rwthmoodle/moodle-mod_pdfannotator.git
+[submodule "blocks/sharing_cart"]
+	path = blocks/sharing_cart
+	url = https://github.com/donhinkelman/moodle-block_sharing_cart.git
+[submodule "blocks/massaction"]
+	path = blocks/massaction
+	url = https://github.com/Syxton/moodle-block_massaction.git
+[submodule "mod/peerwork"]
+	path = mod/peerwork
+	url = https://github.com/amandadoughty/moodle-mod_peerwork.git
+[submodule "local/autogroup"]
+	path = local/autogroup
+	url = https://github.com/emmarichardson/local_autogroup.git
+[submodule "blocks/bulkactivity"]
+	path = blocks/bulkactivity
+	url = https://github.com/doiphode/moodle-block_bulkactivity.git
+[submodule "search/engine/elastic"]
+	path = search/engine/elastic
+	url = https://github.com/catalyst/moodle-search_elastic.git
+[submodule "local/aws"]
+	path = local/aws
+	url = https://github.com/catalyst/moodle-local_aws.git
+[submodule "lib/editor/atto/plugins/bsgrid"]
+	path = lib/editor/atto/plugins/bsgrid
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/atto_bsgrid
+[submodule "local/callista"]
+	path = local/callista
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_callista
+
+[submodule "theme/boost_union"]
+	path = theme/boost_union
+	url = https://github.com/moodle-an-hochschulen/moodle-theme_boost_union.git
+[submodule "auth/oidc"]
+	path = auth/oidc
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/auth-oidc
+[submodule "moodle-filter_forumembed"]
+	path = moodle-filter_forumembed
+	url = https://github.com/catalyst/moodle-filter_forumembed.git
+[submodule "filter/forumembed"]
+	path = filter/forumembed
+	url = https://github.com/catalyst/moodle-filter_forumembed.git
+[submodule "filter/imageopt"]
+	path = filter/imageopt
+	url = https://github.com/gthomas2/moodle-filter_imageopt.git
+[submodule "grade/grading/form/rubric_ranges"]
+	path = grade/grading/form/rubric_ranges
+	url = https://github.com/catalyst/moodle-gradingform_rubric_ranges.git
+[submodule "local/cohort_profile"]
+	path = local/cohort_profile
+	url = https://github.com/dev-krsk/moodle-local_cohort_profile.git
+[submodule "admin/tool/excimer"]
+	path = admin/tool/excimer
+	url = https://github.com/catalyst/moodle-tool_excimer.git
+[submodule "admin/tool/deletecourses"]
+	path = admin/tool/deletecourses
+	url = https://github.com/LafColITS/moodle-tool_deletecourses
+[submodule "question/format/wordtable"]
+	path = question/format/wordtable
+	url = https://github.com/ecampbell/moodle-qformat_wordtable.git
+[submodule "mod/book/tool/wordimport"]
+	path = mod/book/tool/wordimport
+	url = https://github.com/ecampbell/moodle-booktool_wordimport.git
+[submodule "report/advancedgrading"]
+	path = report/advancedgrading
+	url = https://github.com/marcusgreen/moodle-report_advancedgrading.git
+[submodule "enrol/autoenrol"]
+	path = enrol/autoenrol
+	url = https://github.com/bobopinna/moodle-enrol_autoenrol.git
+[submodule "admin/tool/dynamic_cohorts"]
+	path = admin/tool/dynamic_cohorts
+	url = https://github.com/catalyst/moodle-tool_dynamic_cohorts.git
+[submodule "lib/editor/atto/plugins/wordcount"]
+	path = lib/editor/atto/plugins/wordcount
+	url = https://github.com/SysBind/moodle-atto_wordcount.git
+[submodule "plagiarism/turnitin"]
+	path = plagiarism/turnitin
+	url = https://github.com/turnitin/moodle-plagiarism_turnitin
+[submodule "grade/report/gradedist"]
+	path = grade/report/gradedist
+	url = https://github.com/academic-moodle-cooperation/moodle-gradereport_gradedist.git
+[submodule "admin/tool/fix_delete_modules"]
+	path = admin/tool/fix_delete_modules
+	url = https://github.com/catalyst/moodle-tool_fix_delete_modules.git
