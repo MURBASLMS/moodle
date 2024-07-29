@@ -418,8 +418,10 @@ class report_log_renderable implements renderable {
         $users = array();
         if ($this->showusers) {
             if ($courseusers) {
-                foreach ($courseusers as $courseuser) {
-                     $users[$courseuser->id] = fullname($courseuser, has_capability('moodle/site:viewfullnames', $context));
+foreach ($courseusers as $courseuser) {
+            // Access the username from the stdClass object
+            $username = $courseuser->username; 
+            $users[$courseuser->id] = (fullname($courseuser, has_capability('moodle/site:viewfullnames', $context))).' ('.$username.')';
                 }
             }
             $users[$CFG->siteguest] = get_string('guestuser');

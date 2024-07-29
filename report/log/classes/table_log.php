@@ -77,11 +77,12 @@ class report_log_table_log extends table_sql {
             $headers = array(get_string('course'));
         }
 
-        $this->define_columns(array_merge($cols, array('time', 'fullnameuser', 'relatedfullnameuser', 'context', 'component',
+        $this->define_columns(array_merge($cols, array('time', 'fullnameuser', 'username', 'relatedfullnameuser', 'context', 'component',
                 'eventname', 'description', 'origin', 'ip')));
         $this->define_headers(array_merge($headers, array(
                 get_string('time'),
                 get_string('fullnameuser'),
+                get_string('username'),
                 get_string('eventrelatedfullnameuser', 'report_log'),
                 get_string('eventcontext', 'report_log'),
                 get_string('eventcomponent', 'report_log'),
@@ -143,6 +144,28 @@ class report_log_table_log extends table_sql {
         return $this->userfullnames[$userid];
     }
 
+    protected function get_user_username($userid) {
+      global $DB;
+        if (empty($userid)) {
+            return false;
+        }
+        if (!empty($this->username[$userid])) {
+            return $this->username[$userid];
+        }
+        // We already looked for the user and it does not exist.
+        if ($this->username[$userid] === false) {
+            return false;
+        }
+         // If we reach that point new users logs have been generated since the last users db query.
+        list($usql, $uparams) = $DB->get_in_or_equal($userid);
+        $sql = "SELECT id,username," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
+        if (!$user = $DB->get_record_sql($sql, $uparams)) {
+            return false;
+        }
+        $this->username[$userid] = $user->username;
+        return $this->username[$userid];
+    }
+
     /**
      * Generate the time column.
      *
@@ -157,6 +180,12 @@ class report_log_table_log extends table_sql {
             $dateformat = get_string('strftimedatetimeshortaccurate', 'core_langconfig');
         }
         return userdate($event->timecreated, $dateformat);
+    }
+
+    public function col_username($event) {
+    // Add affected user.
+        $username = $this->get_user_username($event->userid);
+        return $username;
     }
 
     /**
