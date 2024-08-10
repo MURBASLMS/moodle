@@ -314,9 +314,6 @@
 [submodule "theme/boost_union"]
 	path = theme/boost_union
 	url = https://github.com/moodle-an-hochschulen/moodle-theme_boost_union.git
-[submodule "auth/oidc"]
-	path = auth/oidc
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/auth-oidc
 [submodule "moodle-filter_forumembed"]
 	path = moodle-filter_forumembed
 	url = https://github.com/catalyst/moodle-filter_forumembed.git
