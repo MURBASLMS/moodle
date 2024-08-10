@@ -109,12 +109,6 @@
 [submodule "local/gradebookexport"]
 	path = local/gradebookexport
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_gradebookexport
-[submodule "lib/editor/atto/plugins/echo360attoplugin"]
-	path = lib/editor/atto/plugins/echo360attoplugin
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/echo360attoplugin
-[submodule "filter/echo360"]
-	path = filter/echo360
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360
 [submodule "grade/import/kioskpearsonjson"]
 	path = grade/import/kioskpearsonjson
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/grade_import_kioskpearsonjson
