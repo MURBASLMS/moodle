@@ -365,3 +365,6 @@
 [submodule "local/callista"]
 	path = local/callista
 	url = https://github.com/MURBASLMS/local_callista.git
+[submodule "auth/oidc"]
+	path = auth/oidc
+	url = https://github.com/microsoft/moodle-auth_oidc.git
