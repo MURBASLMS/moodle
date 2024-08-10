@@ -166,9 +166,6 @@
 [submodule "local/assessfreq"]
 	path = local/assessfreq
 	url = https://github.com/catalyst/moodle-local_assessfreq.git
-[submodule "local/xp"]
-	path = local/xp
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_xp
 [submodule "course/format/onetopic"]
 	path = course/format/onetopic
 	url = https://github.com/davidherney/moodle-format_onetopic.git
