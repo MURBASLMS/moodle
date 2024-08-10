@@ -365,3 +365,6 @@
 [submodule "admin/tool/fix_delete_modules"]
 	path = admin/tool/fix_delete_modules
 	url = https://github.com/catalyst/moodle-tool_fix_delete_modules.git
+[submodule "local/callista"]
+	path = local/callista
+	url = https://github.com/MURBASLMS/local_callista.git
