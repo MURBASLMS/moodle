@@ -55,12 +55,6 @@
 [submodule "report/coursesize"]
 	path = report/coursesize
 	url = https://github.com/catalyst/moodle-report_coursesize.git
-[submodule "local/callistabase"]
-	path = local/callistabase
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_callistabase
-[submodule "blocks/callista"]
-	path = blocks/callista
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_callista
 [submodule "mod/pearson"]
 	path = mod/pearson
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_pearson
@@ -94,9 +88,6 @@
 [submodule "local/pearson"]
 	path = local/pearson
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_pearson
-[submodule "blocks/callista_activation_date"]
-	path = blocks/callista_activation_date
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/blocks_callista_activation_date
 [submodule "blocks/pearson"]
 	path = blocks/pearson
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_pearson
@@ -320,10 +311,6 @@
 [submodule "lib/editor/atto/plugins/bsgrid"]
 	path = lib/editor/atto/plugins/bsgrid
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/atto_bsgrid
-[submodule "local/callista"]
-	path = local/callista
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_callista
-
 [submodule "theme/boost_union"]
 	path = theme/boost_union
 	url = https://github.com/moodle-an-hochschulen/moodle-theme_boost_union.git
