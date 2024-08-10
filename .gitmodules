@@ -82,9 +82,6 @@
 [submodule "mod/lightboxgallery"]
 	path = mod/lightboxgallery
 	url = https://github.com/netspotau/moodle-mod_lightboxgallery.git
-[submodule "blocks/studentstracker"]
-	path = blocks/studentstracker
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_studentstracker
 [submodule "local/pearson"]
 	path = local/pearson
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_pearson
