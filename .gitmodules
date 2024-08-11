@@ -305,9 +305,6 @@
 [submodule "filter/forumembed"]
 	path = filter/forumembed
 	url = https://github.com/catalyst/moodle-filter_forumembed.git
-[submodule "filter/imageopt"]
-	path = filter/imageopt
-	url = https://github.com/gthomas2/moodle-filter_imageopt.git
 [submodule "grade/grading/form/rubric_ranges"]
 	path = grade/grading/form/rubric_ranges
 	url = https://github.com/catalyst/moodle-gradingform_rubric_ranges.git
