@@ -353,3 +353,12 @@
 [submodule "auth/oidc"]
 	path = auth/oidc
 	url = https://github.com/microsoft/moodle-auth_oidc.git
+[submodule "availability/condition/cohort"]
+	path = availability/condition/cohort
+	url = https://github.com/moodle-an-hochschulen/moodle-availability_cohort
+[submodule "availability/condition/othercompleted"]
+	path = availability/condition/othercompleted
+	url = https://github.com/ModernLMS/moodle-availability_othercompleted
+[submodule "blocks/quickmail"]
+	path = blocks/quickmail
+	url = https://github.com/lsuonline/lsuce-block_quickmail.git
