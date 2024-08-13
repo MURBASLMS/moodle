@@ -235,9 +235,6 @@
 [submodule "local/profilecohort"]
 	path = local/profilecohort
 	url = https://github.com/moodleuulm/moodle-local_profilecohort.git
-[submodule "course/format/remuiformat"]
-	path = course/format/remuiformat
-	url = https://github.com/WisdmLabs/moodle-format_remuiformat.git
 [submodule "enrol/groupsync"]
 	path = enrol/groupsync
 	url = https://github.com/moodlehq/moodle-enrol_groupsync.git
