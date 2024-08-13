@@ -350,3 +350,6 @@
 [submodule "mod/mootimeter"]
 	path = mod/mootimeter
 	url = https://github.com/mebis-lp/moodle-mod_mootimeter.git
+[submodule "local/callistabase"]
+	path = local/callistabase
+	url = git@github.com:MURBASLMS/local_callistabase.git
