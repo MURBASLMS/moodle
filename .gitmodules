@@ -296,9 +296,6 @@
 [submodule "theme/boost_union"]
 	path = theme/boost_union
 	url = https://github.com/moodle-an-hochschulen/moodle-theme_boost_union.git
-[submodule "moodle-filter_forumembed"]
-	path = moodle-filter_forumembed
-	url = https://github.com/catalyst/moodle-filter_forumembed.git
 [submodule "filter/forumembed"]
 	path = filter/forumembed
 	url = https://github.com/catalyst/moodle-filter_forumembed.git
