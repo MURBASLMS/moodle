@@ -187,9 +187,6 @@
 [submodule "question/behaviour/deferredfeedbackexplain"]
 	path = question/behaviour/deferredfeedbackexplain
 	url = https://github.com/timhunt/moodle-qbehaviour_deferredfeedbackexplain.git
-[submodule "filter/echo360du"]
-	path = filter/echo360du
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360du
 [submodule "enrol/coursecompleted"]
 	path = enrol/coursecompleted
 	url = https://github.com/ewallah/moodle-enrol_coursecompleted.git
