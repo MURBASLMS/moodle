@@ -334,7 +334,7 @@
 	url = https://github.com/catalyst/moodle-tool_fix_delete_modules.git
 [submodule "local/callista"]
 	path = local/callista
-	url = https://github.com/MURBASLMS/local_callista.git
+	url = git@github.com:MURBASLMS/local_callista.git
 [submodule "auth/oidc"]
 	path = auth/oidc
 	url = https://github.com/microsoft/moodle-auth_oidc.git
