@@ -353,3 +353,6 @@
 [submodule "local/callistabase"]
 	path = local/callistabase
 	url = git@github.com:MURBASLMS/local_callistabase.git
+[submodule "enrol/mu"]
+	path = enrol/mu
+	url = git@github.com:MURBASLMS/enrol_mu.git
