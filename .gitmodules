@@ -356,3 +356,6 @@
 [submodule "enrol/mu"]
 	path = enrol/mu
 	url = git@github.com:MURBASLMS/enrol_mu.git
+[submodule "grade/export/callista"]
+	path = grade/export/callista
+	url = git@github.com:MURBASLMS/gradeexport_callista.git
