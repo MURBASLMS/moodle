@@ -359,3 +359,9 @@
 [submodule "grade/export/callista"]
 	path = grade/export/callista
 	url = git@github.com:MURBASLMS/gradeexport_callista.git
+[submodule "blocks/callista_activation_date"]
+	path = blocks/callista_activation_date
+	url = git@github.com:MURBASLMS/block_callista_activation_date.git
+[submodule "local/muexam"]
+	path = local/muexam
+	url = git@github.com:MURBASLMS/local_muexam.git
