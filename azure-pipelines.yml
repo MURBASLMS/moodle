@@ -34,6 +34,7 @@ stages:
               knownHostsEntry: '$(knownHostEntry)'
               sshPublicKey: '$(learn_pubkey)'
               sshKeySecureFile: 'learn'
+              
           - script: |
               ssh-keyscan github.com >> ~/.ssh/known_hosts
               displayName: 'Add GitHub to known_hosts'
