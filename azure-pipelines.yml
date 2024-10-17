@@ -112,9 +112,6 @@ stages:
               ls -l $PHP_INI
               sudo service apache2 restart || sudo service php-fpm restart
             displayName: 'Set PHP max_input_vars to 5000'
-          - script: |
-              echo 'max_input_vars=5000' > $(Build.SourcesDirectory)/.user.ini
-            displayName: 'Set max_input_vars using .user.ini'
               
           - script: |
               # Verify PHP configuration and max_input_vars value
