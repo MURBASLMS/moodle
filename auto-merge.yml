@@ -1,0 +1,23 @@
+schedules:
+- cron: '0 4 * * *'
+  displayName: Run auto merge at 12pm AWST daily
+  branches:
+    include:
+    - MOODLE_404_STABLE
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- script: |
+    sudo git checkout MOODLE_404_STABLE
+    sudo git remote add hq https://github.com/moodle/moodle.git
+    sudo git remote -v
+    sudo git fetch hq MOODLE_404_STABLE
+    sudo git merge hq/MOODLE_404_STABLE --allow-unrelated-histories
+    sudo git show-ref --head --dereference
+    sudo git push origin MOODLE_404_STABLE
+  displayName: 'Merging changes from HQ if available'

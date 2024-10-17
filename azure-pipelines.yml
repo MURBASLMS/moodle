@@ -1,0 +1,133 @@
+trigger:
+  branches: 
+    include:
+      - MOODLE_404_STABLE
+    exclude:
+      - PhPUnitTest
+  paths:
+    exclude:
+      - azure-pipelines.yml
+      - auto-merge.yml
+#      - azure-lms-phpunit.yml
+
+resources:
+  repositories:
+    - repository: mdl_config
+      name: mdl_config
+      type: git
+
+variables:
+  - group: Mdl404_LMS_CI
+
+pool:
+  vmImage: 'ubuntu-20.04'
+
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildJob
+        timeoutInMinutes: 240
+        steps:
+          - task: InstallSSHKey@0
+            displayName: 'Install an SSH key for internal repo'
+            inputs:
+              knownHostsEntry: '$(knownHostEntry)'
+              sshPublicKey: '$(learn_pubkey)'
+              sshKeySecureFile: 'learn'
+          - script: |
+              ssh-keyscan github.com >> ~/.ssh/known_hosts
+              displayName: 'Add GitHub to known_hosts'
+    
+          - task: InstallSSHKey@0
+            displayName: 'Install an SSH key for murbaslms github repo'
+            inputs:
+              knownHostsEntry: '$(knownHostEntry)'
+              sshPublicKey: '$(fordevops_pubkey)'
+              sshKeySecureFile: 'fordevops'    
+          
+          - checkout: mdl_config
+          - checkout: self
+            submodules: true
+            persistCredentials: true
+
+          - script: |
+              sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+              sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+              sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+              sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+              sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+              sudo rm -rf /usr/local/bin/phpunit
+              sudo mkdir moodledata
+              sudo mkdir phpunit_moodledata
+              sudo chmod 777 moodledata
+              sudo chmod 777 phpunit_moodledata
+              pwd
+              sudo locale-gen en_AU.UTF-8
+              ls -lah
+              php -version
+            displayName: 'Use PHP version $(phpVersion)'
+          
+          - script: find -path ./vendor -prune -o -path ./local/codechecker -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l -n
+            workingDirectory: '$(system.defaultWorkingDirectory)'
+            displayName: 'PHP Syntax Testing.'
+
+          - script: |
+              sudo apt-get update
+              sudo apt-get install postgresql postgresql-contrib -y
+              sudo systemctl start postgresql.service
+              sudo systemctl status postgresql.service
+              sudo -u postgres bash -c "psql -c \"CREATE USER moodle WITH PASSWORD 'moodle@123';\""
+              sudo -u postgres bash -c "psql -c \"create database moodle --owner=moodle;\""
+            displayName: 'Install postgres db'
+
+          - script: |
+              sudo add-apt-repository ppa:ondrej/php
+              sudo apt-get update
+              sudo apt-get install php8.1-excimer
+            displayName: 'Install excimer'
+
+          - script: |
+              cd mdl_config
+              sudo git checkout PhpUnitTest
+              cp config.php ../$(MOODLE_REPO)/
+            displayName: 'Create config file for unit test'
+
+          - script: |
+              cd $(MOODLE_REPO)
+              composer update $(github_token)
+            workingDirectory: '$(system.defaultWorkingDirectory)'
+            displayName: 'composer install'
+
+          - script: |
+              sudo ls -lah
+            displayName: 'Check content in current DIR'
+
+          - script: |
+              cd $(MOODLE_REPO)
+              sudo php admin/tool/phpunit/cli/init.php
+            workingDirectory: '$(system.defaultWorkingDirectory)'
+            displayName: 'init phpunit install'
+
+          - script: |
+              cd $(MOODLE_REPO)
+              vendor/bin/phpunit cohort/tests/lib_test.php
+            workingDirectory: '$(system.defaultWorkingDirectory)'
+            displayName: 'run phpunit test'
+
+          - script: |
+              cd mdl_config
+              sudo git checkout main
+              cp config.php ../$(MOODLE_REPO)/
+            displayName: 'Create config file for Moodle'
+
+          - task: CopyFiles@2
+            inputs:
+              contents: '**'
+              targetFolder: $(Build.ArtifactStagingDirectory)
+            displayName: 'Copy Files to Build Artifact Staging Directory'
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathToPublish: $(Build.ArtifactStagingDirectory)
+              artifactName: MyBuildOutputs
+            displayName: 'Publish Build Artifacts'
