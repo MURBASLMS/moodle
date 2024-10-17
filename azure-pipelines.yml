@@ -36,7 +36,7 @@ stages:
               sshKeySecureFile: 'learn'
               
           - task: InstallSSHKey@0
-            displayName: 'Install an SSH key for murbaslms github repo'
+            displayName: 'Install an SSH key for murbaslms GitHub repo'
             inputs:
               knownHostsEntry: '$(knownHostGitHub)'
               sshPublicKey: '$(fordevops_pubkey)'
@@ -93,23 +93,39 @@ stages:
               cd $(MOODLE_REPO)
               composer update $(github_token)
             workingDirectory: '$(system.defaultWorkingDirectory)'
-            displayName: 'composer install'
+            displayName: 'Composer install'
 
           - script: |
               sudo ls -lah
             displayName: 'Check content in current DIR'
 
           - script: |
+              # Find the PHP configuration file (php.ini)
+              PHP_INI=$(php --ini | grep "Loaded Configuration" | awk '{print $4}')
+    
+              # Update the max_input_vars value in php.ini
+              sudo sed -i 's/max_input_vars = .*/max_input_vars = 5000/' $PHP_INI
+    
+              # Verify the change
+              grep "max_input_vars" $PHP_INI
+            displayName: 'Set PHP max_input_vars to 5000'
+
+          - script: |
+              # Verify PHP configuration and max_input_vars value
+              php -i | grep "max_input_vars"
+            displayName: 'Verify PHP Configuration'
+
+          - script: |
               cd $(MOODLE_REPO)
               sudo php admin/tool/phpunit/cli/init.php
             workingDirectory: '$(system.defaultWorkingDirectory)'
-            displayName: 'init phpunit install'
+            displayName: 'Init phpunit install'
 
           - script: |
               cd $(MOODLE_REPO)
               vendor/bin/phpunit cohort/tests/lib_test.php
             workingDirectory: '$(system.defaultWorkingDirectory)'
-            displayName: 'run phpunit test'
+            displayName: 'Run phpunit test'
 
           - script: |
               cd mdl_config
