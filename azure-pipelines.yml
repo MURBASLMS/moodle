@@ -108,6 +108,7 @@ stages:
     
               # Verify the change
               grep "max_input_vars" $PHP_INI
+              echo $PHP_INI
             displayName: 'Set PHP max_input_vars to 5000'
 
           - script: |
