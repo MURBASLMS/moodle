@@ -35,14 +35,10 @@ stages:
               sshPublicKey: '$(learn_pubkey)'
               sshKeySecureFile: 'learn'
               
-          - script: |
-              ssh-keyscan github.com >> ~/.ssh/known_hosts
-              displayName: 'Add GitHub to known_hosts'
-    
           - task: InstallSSHKey@0
             displayName: 'Install an SSH key for murbaslms github repo'
             inputs:
-              knownHostsEntry: '$(knownHostEntry)'
+              knownHostsEntry: '$(knownHostGitHub)'
               sshPublicKey: '$(fordevops_pubkey)'
               sshKeySecureFile: 'fordevops'    
           
