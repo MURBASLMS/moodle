@@ -101,6 +101,7 @@ stages:
 
           - script: |
               # Find the PHP configuration file (php.ini)
+              set -x
               PHP_INI=$(php --ini | grep "Loaded Configuration" | awk '{print $4}')
     
               # Update the max_input_vars value in php.ini
