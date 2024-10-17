@@ -105,7 +105,7 @@ stages:
               PHP_INI=$(php --ini | grep "Loaded Configuration" | awk '{print $4}')
     
               # Update the max_input_vars value in php.ini
-              sudo sed -i 's/max_input_vars = .*/max_input_vars = 5000/' $PHP_INI
+              sudo sed -i 's/^;\s*max_input_vars\s*=.*/max_input_vars = 5000/' $PHP_INI
     
               # Verify the change
               grep "max_input_vars" $PHP_INI
