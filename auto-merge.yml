@@ -1,3 +1,4 @@
+
 schedules:
 - cron: '0 4 * * *'
   displayName: Run auto merge at 12pm AWST daily
@@ -13,6 +14,8 @@ steps:
   persistCredentials: true
 
 - script: |
+    sudo git config --global user.email "lmscicd@murdoch.edu.au"
+    sudo git config --global user.name "lmscicd"
     sudo git checkout MOODLE_404_STABLE
     sudo git remote add hq https://github.com/moodle/moodle.git
     sudo git remote -v
