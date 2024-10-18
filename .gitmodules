@@ -229,9 +229,6 @@
 [submodule "mod/teammeeting"]
 	path = mod/teammeeting
 	url = https://github.com/MURBASLMS/moodle-mod_teammeeting
-[submodule "local/profilecohort"]
-	path = local/profilecohort
-	url = https://github.com/moodleuulm/moodle-local_profilecohort.git
 [submodule "enrol/groupsync"]
 	path = enrol/groupsync
 	url = https://github.com/moodlehq/moodle-enrol_groupsync.git
