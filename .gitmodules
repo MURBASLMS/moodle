@@ -238,9 +238,6 @@
 [submodule "filter/filtercodes"]
 	path = filter/filtercodes
 	url = https://github.com/michael-milette/moodle-filter_filtercodes.git
-[submodule "blocks/course_status"]
-	path = blocks/course_status
-	url = https://bitbucket.org/covuni/moodle-block_course_status.git
 [submodule "mod/quiz/accessrule/delayed"]
 	path = mod/quiz/accessrule/delayed
 	url = https://github.com/juacas/quizaccess_delayed.git
