@@ -359,3 +359,21 @@
 [submodule "local/muexam"]
 	path = local/muexam
 	url = git@github.com:MURBASLMS/local_muexam.git
+[submodule "mod/subsection"]
+	path = mod/subsection
+	url = https://github.com/aanabit/mod_subsection.git
+[submodule "lib/editor/tiny/plugins/c4l"]
+	path = lib/editor/tiny/plugins/c4l
+	url = https://github.com/reskit/moodle-tiny_c4l.git
+[submodule "lib/editor/tiny/plugins/htmlblock"]
+	path = lib/editor/tiny/plugins/htmlblock
+	url = https://github.com/srobotta/moodle-tiny_htmlblock.git
+[submodule "lib/editor/tiny/plugins/preview"]
+	path = lib/editor/tiny/plugins/preview
+	url = https://github.com/dthies/moodle-tiny_preview.git
+[submodule "lib/editor/tiny/plugins/generico"]
+	path = lib/editor/tiny/plugins/generico
+	url = https://github.com/justinhunt/moodle-tiny_generico.git
+[submodule "lib/editor/tiny/plugins/snippet"]
+	path = lib/editor/tiny/plugins/snippet
+	url = https://github.com/justinhunt/moodle-tiny_snippet.git
