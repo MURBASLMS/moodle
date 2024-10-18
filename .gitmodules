@@ -377,3 +377,6 @@
 [submodule "lib/editor/tiny/plugins/snippet"]
 	path = lib/editor/tiny/plugins/snippet
 	url = https://github.com/justinhunt/moodle-tiny_snippet.git
+[submodule "blocks/callista"]
+	path = blocks/callista
+	url = git@github.com:MURBASLMS/block_callista.git
