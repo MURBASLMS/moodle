@@ -380,3 +380,6 @@
 [submodule "blocks/callista"]
 	path = blocks/callista
 	url = git@github.com:MURBASLMS/block_callista.git
+[submodule "grade/report/gradedist"]
+	path = grade/report/gradedist
+	url = https://github.com/academic-moodle-cooperation/moodle-gradereport_gradedist.git
