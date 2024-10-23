@@ -386,3 +386,18 @@
 [submodule "blocks/course_status"]
 	path = blocks/course_status
 	url = https://bitbucket.org/covuni/moodle-block_course_status.git
+[submodule "filter/echo360tiny"]
+	path = filter/echo360tiny
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360tiny
+[submodule "lib/editor/tiny/plugins/echo360"]
+	path = lib/editor/tiny/plugins/echo360
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/tiny_echo360
+[submodule "lib/editor/atto/plugins/echo360attoplugin"]
+	path = lib/editor/atto/plugins/echo360attoplugin
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/echo360attoplugin
+[submodule "filter/echo360"]
+	path = filter/echo360
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360
+[submodule "filter/echo360du"]
+	path = filter/echo360du
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360du
