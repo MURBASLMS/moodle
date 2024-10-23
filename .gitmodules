@@ -383,9 +383,6 @@
 [submodule "grade/report/gradedist"]
 	path = grade/report/gradedist
 	url = https://github.com/academic-moodle-cooperation/moodle-gradereport_gradedist.git
-[submodule "blocks/course_status"]
-	path = blocks/course_status
-	url = https://bitbucket.org/covuni/moodle-block_course_status.git
 [submodule "filter/echo360tiny"]
 	path = filter/echo360tiny
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360tiny
