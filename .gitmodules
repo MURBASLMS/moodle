@@ -398,3 +398,6 @@
 [submodule "filter/echo360du"]
 	path = filter/echo360du
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360du
+[submodule "blocks/muupcomingcourses"]
+	path = blocks/muupcomingcourses
+	url = git@github.com:MURBASLMS/block_muupcomingcourses.git
