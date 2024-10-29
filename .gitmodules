@@ -401,3 +401,6 @@
 [submodule "blocks/pickup"]
 	path = blocks/pickup
 	url = git@github.com:MURBASLMS/moodle-block_pickup.git
+[submodule "course/format/remuiformat"]
+	path = course/format/remuiformat
+	url = https://github.com/WisdmLabs/moodle-format_remuiformat.git
