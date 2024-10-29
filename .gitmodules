@@ -401,3 +401,6 @@
 [submodule "blocks/muupcomingcourses"]
 	path = blocks/muupcomingcourses
 	url = git@github.com:MURBASLMS/block_muupcomingcourses.git
+[submodule "lib/editor/tiny/plugins/wiris"]
+	path = lib/editor/tiny/plugins/wiris
+	url = https://github.com/wiris/moodle-tiny_wiris.git
