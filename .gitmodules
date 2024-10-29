@@ -109,15 +109,6 @@
 [submodule "grade/import/kioskpearsonjson"]
 	path = grade/import/kioskpearsonjson
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/grade_import_kioskpearsonjson
-[submodule "local/mylabmastering"]
-	path = local/mylabmastering
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_mylabmastering
-[submodule "mod/mylabmastering"]
-	path = mod/mylabmastering
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_mylabmastering
-[submodule "blocks/mylabmastering"]
-	path = blocks/mylabmastering
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/blocks_mylabmastering
 [submodule "customscripts"]
 	path = customscripts
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/customscripts
