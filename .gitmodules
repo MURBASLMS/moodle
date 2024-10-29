@@ -139,9 +139,6 @@
 [submodule "enrol/auto"]
 	path = enrol/auto
 	url = https://github.com/catalyst/moodle-enrol_auto.git
-[submodule "mod/hvp"]
-	path = mod/hvp
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mdl32_h5p
 [submodule "local/intelliboard"]
 	path = local/intelliboard
 	url = https://github.com/intelliboard/intelliboard.git
