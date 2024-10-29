@@ -401,3 +401,6 @@
 [submodule "lib/editor/tiny/plugins/wiris"]
 	path = lib/editor/tiny/plugins/wiris
 	url = https://github.com/wiris/moodle-tiny_wiris.git
+[submodule "mod/hvp"]
+	path = mod/hvp
+	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_hvp
