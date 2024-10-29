@@ -404,3 +404,9 @@
 [submodule "mod/hvp"]
 	path = mod/hvp
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_hvp
+[submodule "blocks/my_feedback"]
+	path = blocks/my_feedback
+	url = git@github.com:MURBASLMS/moodle-block_my_feedback.git
+[submodule "blocks/pickup"]
+	path = blocks/pickup
+	url = git@github.com:MURBASLMS/moodle-block_pickup.git
