@@ -55,9 +55,6 @@
 [submodule "report/coursesize"]
 	path = report/coursesize
 	url = https://github.com/catalyst/moodle-report_coursesize.git
-[submodule "mod/pearson"]
-	path = mod/pearson
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mod_pearson
 [submodule "local/nsws"]
 	path = local/nsws
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/mdl-local_nsws
@@ -82,12 +79,6 @@
 [submodule "mod/lightboxgallery"]
 	path = mod/lightboxgallery
 	url = https://github.com/netspotau/moodle-mod_lightboxgallery.git
-[submodule "local/pearson"]
-	path = local/pearson
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_pearson
-[submodule "blocks/pearson"]
-	path = blocks/pearson
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/block_pearson
 [submodule "blocks/completion_progress"]
 	path = blocks/completion_progress
 	url = https://github.com/jonof/moodle-block_completion_progress.git
