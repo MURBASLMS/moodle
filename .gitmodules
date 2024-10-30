@@ -392,3 +392,6 @@
 [submodule "course/format/remuiformat"]
 	path = course/format/remuiformat
 	url = https://github.com/WisdmLabs/moodle-format_remuiformat.git
+[submodule "availability/condition/mobileapp"]
+	path = availability/condition/mobileapp
+	url = https://github.com/moodlehq/moodle-availability_mobileapp.git
