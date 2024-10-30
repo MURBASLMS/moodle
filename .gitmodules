@@ -97,9 +97,6 @@
 [submodule "local/gradebookexport"]
 	path = local/gradebookexport
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/local_gradebookexport
-[submodule "grade/import/kioskpearsonjson"]
-	path = grade/import/kioskpearsonjson
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/grade_import_kioskpearsonjson
 [submodule "customscripts"]
 	path = customscripts
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/customscripts
