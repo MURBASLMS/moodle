@@ -395,3 +395,6 @@
 [submodule "availability/condition/mobileapp"]
 	path = availability/condition/mobileapp
 	url = https://github.com/moodlehq/moodle-availability_mobileapp.git
+[submodule "local/azureblobstorage"]
+	path = local/azureblobstorage
+	url = https://github.com/catalyst/moodle-local_azureblobstorage.git
