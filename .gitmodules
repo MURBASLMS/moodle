@@ -401,3 +401,6 @@
 [submodule "local/assess_type"]
 	path = local/assess_type
 	url = https://github.com/ucl-isd/moodle-local_assess_type
+[submodule "admin/tool/apcu"]
+	path = admin/tool/apcu
+	url = https://github.com/moodle-an-hochschulen/moodle-tool_apcu
