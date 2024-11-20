@@ -404,3 +404,6 @@
 [submodule "admin/tool/apcu"]
 	path = admin/tool/apcu
 	url = https://github.com/moodle-an-hochschulen/moodle-tool_apcu
+[submodule "lib/editor/tiny/plugins/embedquestion"]
+	path = lib/editor/tiny/plugins/embedquestion
+	url = https://github.com/moodleou/moodle-tiny_embedquestion.git
