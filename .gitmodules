@@ -407,3 +407,9 @@
 [submodule "lib/editor/tiny/plugins/embedquestion"]
 	path = lib/editor/tiny/plugins/embedquestion
 	url = https://github.com/moodleou/moodle-tiny_embedquestion.git
+[submodule "admin/tool/certificate"]
+	path = admin/tool/certificate
+	url = https://github.com/moodleworkplace/moodle-tool_certificate.git
+[submodule "mod/coursecertificate"]
+	path = mod/coursecertificate
+	url = https://github.com/moodleworkplace/moodle-mod_coursecertificate.git
