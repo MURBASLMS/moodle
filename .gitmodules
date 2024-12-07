@@ -419,3 +419,21 @@
 [submodule "blocks/rbreport"]
 	path = blocks/rbreport
 	url = https://github.com/moodleworkplace/moodle-block_rbreport.git
+[submodule "lib/editor/tiny/plugins/cloze"]
+	path = lib/editor/tiny/plugins/cloze
+	url = https://github.com/srobotta/moodle-tiny_cloze.git
+[submodule "lib/editor/tiny/plugins/codepro"]
+	path = lib/editor/tiny/plugins/codepro
+	url = https://github.com/jmulet/moodle-tiny_codepro.git
+[submodule "lib/editor/tiny/plugins/fontsize"]
+	path = lib/editor/tiny/plugins/fontsize
+	url = https://github.com/mediamaisteri/moodle-tiny_fontsize.git
+[submodule "lib/editor/tiny/plugins/wordlimit"]
+	path = lib/editor/tiny/plugins/wordlimit
+	url = https://codeberg.org/linos/moodle-tiny_wordlimit.git
+[submodule "lib/editor/tiny/plugins/wordimport"]
+	path = lib/editor/tiny/plugins/wordimport
+	url = https://codeberg.org/linos/moodle-tiny_wordimport.git
+[submodule "lib/editor/tiny/plugins/corrections"]
+	path = lib/editor/tiny/plugins/corrections
+	url = https://github.com/NicoAlexH/moodle-tiny_corrections.git
