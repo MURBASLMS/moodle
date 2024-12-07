@@ -413,3 +413,6 @@
 [submodule "mod/coursecertificate"]
 	path = mod/coursecertificate
 	url = https://github.com/moodleworkplace/moodle-mod_coursecertificate.git
+[submodule "lib/editor/tiny/plugins/fontcolor"]
+	path = lib/editor/tiny/plugins/fontcolor
+	url = https://github.com/bfh/moodle-tiny_fontcolor.git
