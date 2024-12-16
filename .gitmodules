@@ -437,3 +437,6 @@
 [submodule "lib/editor/tiny/plugins/corrections"]
 	path = lib/editor/tiny/plugins/corrections
 	url = https://github.com/NicoAlexH/moodle-tiny_corrections.git
+[submodule "mod/assign/submission/automaticextension"]
+	path = mod/assign/submission/automaticextension
+	url = https://github.com/catalyst/moodle-assignsubmission_automaticextension.git
