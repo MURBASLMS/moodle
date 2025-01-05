@@ -38,6 +38,8 @@ require_once($CFG->libdir . '/tablelib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class report_log_table_log extends table_sql {
+    private $username = array(); // Initialize $username as an empty array
+
     /** @var array list of user fullnames shown in report */
     private $userfullnames = array();
 
@@ -144,26 +146,44 @@ class report_log_table_log extends table_sql {
         return $this->userfullnames[$userid];
     }
 
+    /**
+    * Retrieves the username for a given user ID.
+    * @param int $userid The ID of the user.
+    * @return string|false The username, or false if not found.
+    */
     protected function get_user_username($userid) {
-      global $DB;
-        if (empty($userid)) {
-            return false;
-        }
-        if (!empty($this->username[$userid])) {
-            return $this->username[$userid];
-        }
-        // We already looked for the user and it does not exist.
-        if ($this->username[$userid] === false) {
-            return false;
-        }
-         // If we reach that point new users logs have been generated since the last users db query.
-        list($usql, $uparams) = $DB->get_in_or_equal($userid);
-        $sql = "SELECT id,username," . get_all_user_name_fields(true) . " FROM {user} WHERE id " . $usql;
-        if (!$user = $DB->get_record_sql($sql, $uparams)) {
-            return false;
-        }
-        $this->username[$userid] = $user->username;
+    global $DB;
+
+    if (empty($userid)) {
+        return false;
+    }
+
+    if (isset($this->username[$userid])) {
         return $this->username[$userid];
+    }
+
+    // We already looked for the user and it does not exist.
+    if (array_key_exists($userid, $this->username) && $this->username[$userid] === false) {
+        return false;
+    }
+
+    // If we reach that point new users logs have been generated since the last users db query.
+    list($usql, $uparams) = $DB->get_in_or_equal($userid);
+    $name_fields = \core_user\fields::get_name_fields();
+    $select_fields = 'id, username';
+    foreach ($name_fields as $field) {
+        if (is_object($field) && method_exists($field, 'get_sql_field_name')) {
+            $select_fields .= ", " . $field->get_sql_field_name();
+        }
+    }
+
+    $sql = "SELECT {$select_fields} FROM {user} WHERE id " . $usql;
+    if (!$user = $DB->get_record_sql($sql, $uparams)) {
+        $this->username[$userid] = false; //explicitly set to false for future checks.
+        return false;
+    }
+    $this->username[$userid] = $user->username;
+    return $this->username[$userid];
     }
 
     /**
