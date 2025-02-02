@@ -440,3 +440,6 @@
 [submodule "mod/assign/submission/automaticextension"]
 	path = mod/assign/submission/automaticextension
 	url = https://github.com/catalyst/moodle-assignsubmission_automaticextension.git
+[submodule "blocks/mupromotedcourses"]
+	path = blocks/mupromotedcourses
+	url = git@github.com:MURBASLMS/block_mupromotedcourses.git
