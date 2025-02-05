@@ -84,7 +84,7 @@
 	url = https://github.com/jonof/moodle-block_completion_progress.git
 [submodule "filter/tabs"]
 	path = filter/tabs
-	url = https://github.com/branchup/moodle-filter_tabs.git
+	url = git@github.com:MURBASLMS/moodle-filter_tabs.git
 [submodule "local/userenrols"]
 	path = local/userenrols
 	url = https://github.com/appalachianstate/moodle-local_userenrols.git
@@ -361,7 +361,7 @@
 	url = https://github.com/academic-moodle-cooperation/moodle-gradereport_gradedist.git
 [submodule "filter/echo360tiny"]
 	path = filter/echo360tiny
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360tiny
+	url = git@github.com:MURBASLMS/filter_echo360tiny.git
 [submodule "lib/editor/tiny/plugins/echo360"]
 	path = lib/editor/tiny/plugins/echo360
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/tiny_echo360
@@ -370,7 +370,7 @@
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/echo360attoplugin
 [submodule "filter/echo360"]
 	path = filter/echo360
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360
+	url = git@github.com:MURBASLMS/filter_echo360atto.git
 [submodule "filter/echo360du"]
 	path = filter/echo360du
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/filter_echo360du
