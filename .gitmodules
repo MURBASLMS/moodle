@@ -90,7 +90,7 @@
 	url = https://github.com/appalachianstate/moodle-local_userenrols.git
 [submodule "blocks/alp_player"]
 	path = blocks/alp_player
-	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/alp_player
+	url = git@github.com:MURBASLMS/block_alp_player.git
 [submodule "blocks/mooprofile"]
 	path = blocks/mooprofile
 	url = git@ssh.dev.azure.com:v3/MU-ITSDevOps/BAS-EdTech/moodleprofile
