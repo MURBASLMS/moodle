@@ -362,6 +362,12 @@ class repository_onedrive extends repository {
                     'children' => []
                 ];
             } else {
+
+                // Skip 0 bytes files, they are probably files that are visible, but not yet fully uploaded.
+                if (empty($remotefile->size)) {
+                    continue;
+                }
+
                 // We can download all other file types.
                 $title = $remotefile->name;
                 $source = json_encode([
@@ -546,7 +552,7 @@ class repository_onedrive extends repository {
      * @return array
      */
     public static function get_type_option_names() {
-        return array('issuerid', 'pluginname', 'defaultreturntype', 'supportedreturntypes');
+        return array('issuerid', 'pluginname', 'defaultreturntype', 'sharescope', 'supportedreturntypes');
     }
 
     /**
@@ -649,11 +655,11 @@ class repository_onedrive extends repository {
     protected function get_file_id_by_path(\repository_onedrive\rest $client, $fullpath) {
         $fields = "id";
         try {
-            $response = $client->call('get_file_by_path', ['fullpath' => $fullpath, '$select' => $fields]);
+            $response = $client->call('get_file_by_path', ['fullpath' => rawurlencode($fullpath), '$select' => $fields]);
         } catch (\core\oauth2\rest_exception $re) {
             return false;
         }
-        return $response->id;
+        return $response ? $response->id : false;
     }
 
     /**
@@ -753,9 +759,10 @@ class repository_onedrive extends repository {
     protected function set_file_sharing_anyone_with_link_can_read(\repository_onedrive\rest $client, $fileid) {
 
         $type = (isset($this->options['embed']) && $this->options['embed'] == true) ? 'embed' : 'view';
+        $scope = get_config('onedrive', 'sharescope') ?: 'anonymous';
         $updateread = [
             'type' => $type,
-            'scope' => 'anonymous'
+            'scope' => $scope
         ];
         $params = ['fileid' => $fileid];
         $response = $client->call('create_link', $params, json_encode($updateread));
@@ -899,21 +906,200 @@ class repository_onedrive extends repository {
         }
         $response = json_decode($response, true);
         $downloadurl = $response['@microsoft.graph.downloadUrl'];
+        // Copy the file to system account.
+        $fileid = $this->copy_file_to_system_account($userauth, $systemauth, $source, $context, $component, $filearea, $itemid);
 
-        // Download the file.
-        $tmpfilename = clean_param($source->id, PARAM_PATH);
-        $temppath = make_request_directory() . $tmpfilename;
+        // Read with link.
+        $link = $this->set_file_sharing_anyone_with_link_can_read($systemservice, $fileid);
+
+        // Update the details in the file reference before it is saved.
+        $source->id = $fileid;
+        $source->link = $link;
+        $source->usesystem = true;
+
+        $reference = json_encode($source);
+
+        return $reference;
+    }
+
+    /**
+     * Copy a user file to the system account.
+     *
+     * @param \core\oauth2\client $userauth The user's oauth client.
+     * @param \core\oauth2\client $systemauth The system's oauth client.
+     * @param object $source The source file.
+     * @param \context $context The context.
+     * @param string $component The target context for this new file.
+     * @param string $filearea The target filearea for this new file.
+     * @param string $itemid the Target itemid for this new file.
+     * @return string The copied file ID.
+     */
+    protected function copy_file_to_system_account($userauth, $systemauth, $source, $context, $component, $filearea, $itemid) {
+        $fileid = $source->id;
+        $userservice = new repository_onedrive\rest($userauth);
+        $systemservice = new repository_onedrive\rest($systemauth);
+        $systemaccount = \core\oauth2\api::get_system_account($this->issuer);
+
+        // Share the file with the system account.
+        $params = ['fileid' => $fileid];
+        $response = $userservice->call('create_permission', $params, json_encode([
+            'recipients' => [['email' => $systemaccount->get('email')]],
+            'roles' => ['read'],
+            'requireSignIn' => true,
+            'sendInvitation' => false
+        ]));
+        if (empty($response->value[0]->id)) {
+            $details = "Cannot add system user {$systemaccount->get('email')} as a reader of {$fileid}.";
+            throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+        }
+        $permissionid = $response->value[0]->id;
 
         // We cannot send authorization headers in the direct download request, it will fail.
         $c = new curl();
         $options = ['filepath' => $temppath, 'timeout' => 60, 'followlocation' => true, 'maxredirs' => 5];
         $result = $c->download_one($downloadurl, null, $options);
+        $caughtexception = null;
+        try {
+            // Get a path to upload the file at.
+            $filename = $this->make_filename_unique($source->name);
+            $filepath = $this->generate_system_account_filepath_from_context($systemservice, $context, $component,
+                $filearea, $itemid, $filename);
+            $path = $filepath->fullpath . '/' . $filename;
 
-        if (!$result) {
-            throw new repository_exception('cannotdownload', 'repository');
+            // Retrieve the user's ID.
+            $resp = $userservice->call("me", []);
+            $msuserid = $resp->id;
+
+            // Retrieve the system's account drive ID.
+            $resp = $systemservice->call("my_drive", []);
+            $systemdriveid = $resp->id;
+
+            // Instruct to copy the file.
+            $rawheaders = $systemservice->call('copy_user_file', [
+                'userid' => $msuserid,
+                'fileid' => $fileid
+            ], json_encode([
+                'parentReference' => [
+                    'id' => $filepath->parentid,
+                    'driveId' => $systemdriveid,
+                ],
+                'name' => $filename,
+                '@microsoft.graph.conflictBehavior' => 'replace'
+            ]));
+            $location = null;
+            foreach ($rawheaders as $rawheader) {
+                if (core_text::strtolower(core_text::substr($rawheader, 0, 9)) === 'location:') {
+                    $location = trim(explode(':', $rawheader, 2)[1]);
+                }
+            }
+            if (empty($location)) {
+                $details = "Could not retrieve polling URL for async copy file.";
+                throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+            }
+
+            // Poll the status URL.
+            $curl = new \curl();
+            $timeout = 10;
+            $tryuntil = time() + $timeout;
+            $copiedfiledid = null;
+            do {
+                $resp = $curl->get($location);
+                if ($curl->errno !== 0) {
+                    $details = "Querying polling URL failed with error: {$curl->error}";
+                    throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+                }
+                $result = json_decode($resp);
+                if (!$result) {
+                    $details = "Unexpected, or unable to parse, response from polling URL: {$resp}";
+                    throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+                }
+
+                // If we get a resourceId, the transfer is complete.
+                if (!empty($result->resourceId)) {
+                    $copiedfiledid = $result->resourceId;
+                    break;
+                }
+
+                // If the file transfer has started, we assume that it is enough for us to retrieve
+                // the file ID by path, even though the transfer has not been completed. If it appears
+                // in a failed state, we exit. Otherwise we loop and query the polling URL again.
+                $status = $result->status;
+                if (in_array($status, ['inProgress', 'completed'])) {
+                    break;
+                } else if (in_array($status, ['failed', 'cancelled', 'cancelPending'])) {
+                    $details = "The file transfer has failed with status: $status";
+                    throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+                }
+                debugging("Looping with $status", DEBUG_DEVELOPER);
+
+                sleep(1);
+            } while (time() < $tryuntil);
+
+            // The file may not yet be fully available, but it should be present in the system
+            // account's drive, and can already be shared. Although, it appears that in some
+            // occasion the file cannot be read by path, so we allow for some leniency.
+            if (empty($copiedfiledid)) {
+                $attempts = 0;
+                do {
+                    $copiedfiledid = $this->get_file_id_by_path($systemservice, $path) ?: null;
+                    if ($copiedfiledid) {
+                        break;
+                    }
+                    sleep(1);
+                } while ($attempts++ < 3);
+            }
+
+            if (empty($copiedfiledid)) {
+                $details = "Could not retrieve the ID of the file being copied.";
+                throw new repository_exception('errorwhilecommunicatingwith', 'repository', '', $details);
+            }
+
+        } catch (\Exception $e) {
+            $caughtexception = $e;
         }
 
-        // Now copy it to a sensible folder.
+        // Always attempt to revoke the read permission.
+        $userservice->call('delete_permission', ['fileid' => $fileid, 'permissionid' => $permissionid]);
+
+        // Re-throw the exception.
+        if ($caughtexception) {
+            throw $e;
+        }
+
+        return $copiedfiledid;
+    }
+
+    /**
+     * Make a filename unique.
+     *
+     * @param string $filename The original file name.
+     * @return string
+     */
+    protected function make_filename_unique($filename) {
+        $filename = clean_param($filename, PARAM_FILE) ?: 'file';
+
+        $dot = strrpos($filename, '.');
+        $basename = $dot === false ? $filename : substr($filename, 0, $dot);
+        $ext = $dot === false ? '' : substr($filename, $dot + 1);
+
+        $prefix = $basename !== '' ? $basename . '.' : '';
+        $suffix = $ext !== '' ? '.' . $ext : '';
+        return $prefix . time() . '.' . strtolower(random_string(4)) . $suffix;
+    }
+
+    /**
+     * Generate a path to store a file in the system account.
+     *
+     * @param \repository_onedrive\rest $service The REST service.
+     * @param \context $context The context.
+     * @param string $component The target context for this new file.
+     * @param string $filearea The target filearea for this new file.
+     * @param string $itemid the Target itemid for this new file.
+     * @return object Contains 'fullpath' and 'parentid'.
+     */
+    protected function generate_system_account_filepath_from_context($service, $context, $component, $filearea, $itemid) {
+        global $CFG, $SITE;
+
         $contextlist = array_reverse($context->get_parent_contexts(true));
 
         $cache = cache::make('repository_onedrive', 'folder');
@@ -941,12 +1127,12 @@ class repository_onedrive extends repository {
             $allfolders[] = $foldername;
         }
 
-        $allfolders[] = urlencode(clean_param($component, PARAM_PATH));
-        $allfolders[] = urlencode(clean_param($filearea, PARAM_PATH));
+        $allfolders[] = urlencode(clean_param($component, PARAM_PATH) . '__' . clean_param($filearea, PARAM_PATH));
         $allfolders[] = urlencode(clean_param($itemid, PARAM_PATH));
 
         // Variable $allfolders now has the complete path we want to store the file in.
         // Create each folder in $allfolders under the system account.
+        $couldalreadyexist = true;
         foreach ($allfolders as $foldername) {
             if ($fullpath) {
                 $fullpath .= '/';
@@ -954,43 +1140,24 @@ class repository_onedrive extends repository {
             $fullpath .= $foldername;
 
             $folderid = $cache->get($fullpath);
-            if (empty($folderid)) {
-                $folderid = $this->get_file_id_by_path($systemservice, $fullpath);
+            if (empty($folderid) && $couldalreadyexist) {
+                $folderid = $this->get_file_id_by_path($service, $fullpath);
             }
             if ($folderid !== false) {
                 $cache->set($fullpath, $folderid);
                 $parentid = $folderid;
             } else {
                 // Create it.
-                $parentid = $this->create_folder_in_folder($systemservice, $foldername, $parentid);
+                $parentid = $this->create_folder_in_folder($service, $foldername, $parentid);
                 $cache->set($fullpath, $parentid);
+                $couldalreadyexist = false;
             }
         }
 
-        // Delete any existing file at this path.
-        $path = $fullpath . '/' . urlencode(clean_param($source->name, PARAM_PATH));
-        $this->delete_file_by_path($systemservice, $path);
-
-        // Upload the file.
-        $safefilename = clean_param($source->name, PARAM_PATH);
-        $mimetype = $this->get_mimetype_from_filename($safefilename);
-        // We cannot send authorization headers in the upload or personal microsoft accounts will fail (what a joke!).
-        $curl = new \curl();
-        $fileid = $this->upload_file($systemservice, $curl, $systemauth, $temppath, $mimetype, $parentid, $safefilename);
-
-        // Read with link.
-        $link = $this->set_file_sharing_anyone_with_link_can_read($systemservice, $fileid);
-
-        $summary = $this->get_file_summary($systemservice, $fileid);
-
-        // Update the details in the file reference before it is saved.
-        $source->id = $summary->id;
-        $source->link = $link;
-        $source->usesystem = true;
-
-        $reference = json_encode($source);
-
-        return $reference;
+        return (object) [
+            'parentid' => $parentid,
+            'fullpath' => $fullpath,
+        ];
     }
 
     /**
@@ -1157,6 +1324,14 @@ class repository_onedrive extends repository {
         ];
         $mform->addElement('select', 'defaultreturntype', get_string('defaultreturntype', 'repository_onedrive'), $choices);
 
+        $choices = [
+            'anonymous' => get_string('anonymous', 'repository_onedrive'),
+            'organization' => get_string('organization', 'repository_onedrive'),
+        ];
+        $mform->addElement('select', 'sharescope', get_string('sharescope', 'repository_onedrive'), $choices);
+        $mform->setDefault('sharescope', 'anonymous');
+        $mform->addHelpButton('sharescope', 'sharescope', 'repository_onedrive');
+        $mform->disabledIf('sharescope', 'supportedreturntypes', 'eq', 'internal');
     }
 }
 
